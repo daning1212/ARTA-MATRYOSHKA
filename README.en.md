@@ -152,6 +152,24 @@ Production login protection, distributed-attack defenses, Wi-Fi security, DDoS p
 Use only synthetic data in owned or explicitly authorized lab environments.
 Strong isolation must be independently established and validated before running untrusted attack tools.
 
+## An invitation to reproduce and extend the research
+
+This project publishes ideas and preliminary experiments for defense against AI-assisted attacks.
+The current computational-toll results come from fixed scripts, not actual AI-agent experiments.
+
+The creator's hardware and execution environment limit the experiments we can perform.
+The reports describe what we tested and what remains unverified.
+If you have suitable equipment and a safely isolated environment, please reproduce the code and extend the experiments.
+
+We welcome longer runs and repeated measurements; multi-process, GPU, or distributed solvers; collection of distinct synthetic records; actual AI-agent verification, bypass, abandonment, and decoy-detection behavior; and measurements of defender cost and legitimate-user impact.
+
+Use owned or explicitly authorized isolated environments and synthetic data.
+We are not requesting tests against real services or personal information.
+Share the code revision, hardware and environment, conditions, reproduction commands, raw results, and limitations through an Issue or Pull Request.
+Negative results and failed reproductions are welcome.
+
+**Our goal is to build evidence that others can verify, not to declare perfect protection.**
+
 ## Tests and research records
 
 ```bash
