@@ -1,0 +1,515 @@
+{
+  "kind": "localhost-finite-synthetic-collection",
+  "ai_test": false,
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+    "logical_cpus": 9
+  },
+  "limitations": [
+    "same-host CPU contention",
+    "single synchronous HTTP server",
+    "no verified OS/network isolation",
+    "no GPU or distributed client",
+    "puzzle costs alone do not establish security effectiveness"
+  ],
+  "planned_budget_seconds": 60.0,
+  "runs": [
+    {
+      "repeat": 0,
+      "condition": "direct",
+      "bits": 0,
+      "client_processes": 1,
+      "budget_seconds": 5.0,
+      "rate_limit": null,
+      "elapsed_seconds": 5.0026747539995995,
+      "available_unique_records": 100000,
+      "unique_records_collected": 13868,
+      "collection_fraction": 0.13868,
+      "client_hashes": 0,
+      "client_cpu_seconds": 2.8332922860000003,
+      "client_errors": 0,
+      "client_error_kinds": {},
+      "client_error_samples": [],
+      "dataset_exhausted": false,
+      "count_matches_server": true,
+      "records": 13868,
+      "requests": 13868,
+      "verification_cpu": 0.012235377000000658,
+      "rate_limit_denials": 0,
+      "unique_records_served": 13868,
+      "server_cpu": 2.403932705
+    },
+    {
+      "repeat": 0,
+      "condition": "no-work",
+      "bits": 0,
+      "client_processes": 1,
+      "budget_seconds": 5.0,
+      "rate_limit": null,
+      "elapsed_seconds": 5.0008202010003515,
+      "available_unique_records": 100000,
+      "unique_records_collected": 6293,
+      "collection_fraction": 0.06293,
+      "client_hashes": 0,
+      "client_cpu_seconds": 2.609071459,
+      "client_errors": 1,
+      "client_error_kinds": {
+        "deadline_timeout": 1
+      },
+      "client_error_samples": [
+        {
+          "kind": "deadline_timeout",
+          "stage": "record",
+          "status": null,
+          "remaining_seconds": -0.0005825660000482458
+        }
+      ],
+      "dataset_exhausted": false,
+      "count_matches_server": true,
+      "records": 6293,
+      "requests": 12587,
+      "verification_cpu": 0.06101156699999438,
+      "rate_limit_denials": 0,
+      "unique_records_served": 6293,
+      "server_cpu": 2.4988172
+    },
+    {
+      "repeat": 0,
+      "condition": "pow",
+      "bits": 14,
+      "client_processes": 1,
+      "budget_seconds": 5.0,
+      "rate_limit": null,
+      "elapsed_seconds": 5.001003729999866,
+      "available_unique_records": 100000,
+      "unique_records_collected": 288,
+      "collection_fraction": 0.00288,
+      "client_hashes": 4357469,
+      "client_cpu_seconds": 4.728218923,
+      "client_errors": 0,
+      "client_error_kinds": {},
+      "client_error_samples": [],
+      "dataset_exhausted": false,
+      "count_matches_server": true,
+      "records": 288,
+      "requests": 577,
+      "verification_cpu": 0.004480112999999952,
+      "rate_limit_denials": 0,
+      "unique_records_served": 288,
+      "server_cpu": 0.28910692699999996
+    },
+    {
+      "repeat": 0,
+      "condition": "rate-limit",
+      "bits": 0,
+      "client_processes": 1,
+      "budget_seconds": 5.0,
+      "rate_limit": {
+        "requests": 30,
+        "window_seconds": 1
+      },
+      "elapsed_seconds": 5.000404337999498,
+      "available_unique_records": 100000,
+      "unique_records_collected": 150,
+      "collection_fraction": 0.0015,
+      "client_hashes": 0,
+      "client_cpu_seconds": 0.031384612000000006,
+      "client_errors": 5,
+      "client_error_kinds": {
+        "http_429": 5
+      },
+      "client_error_samples": [
+        {
+          "kind": "http_429",
+          "stage": "record",
+          "status": 429,
+          "remaining_seconds": 4.98525859900019
+        },
+        {
+          "kind": "http_429",
+          "stage": "record",
+          "status": 429,
+          "remaining_seconds": 3.974162143000285
+        },
+        {
+          "kind": "http_429",
+          "stage": "record",
+          "status": 429,
+          "remaining_seconds": 2.9653691560006337
+        },
+        {
+          "kind": "http_429",
+          "stage": "record",
+          "status": 429,
+          "remaining_seconds": 1.952978794000046
+        },
+        {
+          "kind": "http_429",
+          "stage": "record",
+          "status": 429,
+          "remaining_seconds": 0.9412889090008321
+        }
+      ],
+      "dataset_exhausted": false,
+      "count_matches_server": true,
+      "records": 150,
+      "requests": 155,
+      "verification_cpu": 0.00015482099999999943,
+      "rate_limit_denials": 5,
+      "unique_records_served": 150,
+      "server_cpu": 0.04738492699999999
+    },
+    {
+      "repeat": 1,
+      "condition": "direct",
+      "bits": 0,
+      "client_processes": 1,
+      "budget_seconds": 5.0,
+      "rate_limit": null,
+      "elapsed_seconds": 5.001633370000491,
+      "available_unique_records": 100000,
+      "unique_records_collected": 9999,
+      "collection_fraction": 0.09999,
+      "client_hashes": 0,
+      "client_cpu_seconds": 3.0091453699999997,
+      "client_errors": 1,
+      "client_error_kinds": {
+        "deadline_timeout": 1
+      },
+      "client_error_samples": [
+        {
+          "kind": "deadline_timeout",
+          "stage": "record",
+          "status": null,
+          "remaining_seconds": -0.001387571000122989
+        }
+      ],
+      "dataset_exhausted": false,
+      "count_matches_server": false,
+      "records": 10000,
+      "requests": 10000,
+      "verification_cpu": 0.01374232099998908,
+      "rate_limit_denials": 0,
+      "unique_records_served": 10000,
+      "server_cpu": 2.8179674699999997
+    },
+    {
+      "repeat": 1,
+      "condition": "rate-limit",
+      "bits": 0,
+      "client_processes": 1,
+      "budget_seconds": 5.0,
+      "rate_limit": {
+        "requests": 30,
+        "window_seconds": 1
+      },
+      "elapsed_seconds": 5.000602813000114,
+      "available_unique_records": 100000,
+      "unique_records_collected": 150,
+      "collection_fraction": 0.0015,
+      "client_hashes": 0,
+      "client_cpu_seconds": 0.08001595,
+      "client_errors": 5,
+      "client_error_kinds": {
+        "http_429": 5
+      },
+      "client_error_samples": [
+        {
+          "kind": "http_429",
+          "stage": "record",
+          "status": 429,
+          "remaining_seconds": 4.933963891000531
+        },
+        {
+          "kind": "http_429",
+          "stage": "record",
+          "status": 429,
+          "remaining_seconds": 3.9191049370001565
+        },
+        {
+          "kind": "http_429",
+          "stage": "record",
+          "status": 429,
+          "remaining_seconds": 2.9031384350000735
+        },
+        {
+          "kind": "http_429",
+          "stage": "record",
+          "status": 429,
+          "remaining_seconds": 1.8848189250002179
+        },
+        {
+          "kind": "http_429",
+          "stage": "record",
+          "status": 429,
+          "remaining_seconds": 0.8715637850000348
+        }
+      ],
+      "dataset_exhausted": false,
+      "count_matches_server": true,
+      "records": 150,
+      "requests": 155,
+      "verification_cpu": 0.0001862499999999434,
+      "rate_limit_denials": 5,
+      "unique_records_served": 150,
+      "server_cpu": 0.07467285600000001
+    },
+    {
+      "repeat": 1,
+      "condition": "pow",
+      "bits": 14,
+      "client_processes": 1,
+      "budget_seconds": 5.0,
+      "rate_limit": null,
+      "elapsed_seconds": 5.000300460999824,
+      "available_unique_records": 100000,
+      "unique_records_collected": 286,
+      "collection_fraction": 0.00286,
+      "client_hashes": 4456770,
+      "client_cpu_seconds": 4.7890005449999995,
+      "client_errors": 0,
+      "client_error_kinds": {},
+      "client_error_samples": [],
+      "dataset_exhausted": false,
+      "count_matches_server": true,
+      "records": 286,
+      "requests": 573,
+      "verification_cpu": 0.0046825979999996215,
+      "rate_limit_denials": 0,
+      "unique_records_served": 286,
+      "server_cpu": 0.272651975
+    },
+    {
+      "repeat": 1,
+      "condition": "no-work",
+      "bits": 0,
+      "client_processes": 1,
+      "budget_seconds": 5.0,
+      "rate_limit": null,
+      "elapsed_seconds": 5.000783471000432,
+      "available_unique_records": 100000,
+      "unique_records_collected": 4554,
+      "collection_fraction": 0.04554,
+      "client_hashes": 0,
+      "client_cpu_seconds": 2.971002961,
+      "client_errors": 0,
+      "client_error_kinds": {},
+      "client_error_samples": [],
+      "dataset_exhausted": false,
+      "count_matches_server": true,
+      "records": 4554,
+      "requests": 9108,
+      "verification_cpu": 0.060557219000007045,
+      "rate_limit_denials": 0,
+      "unique_records_served": 4554,
+      "server_cpu": 2.8136770010000003
+    },
+    {
+      "repeat": 2,
+      "condition": "pow",
+      "bits": 14,
+      "client_processes": 1,
+      "budget_seconds": 5.0,
+      "rate_limit": null,
+      "elapsed_seconds": 5.001334426999165,
+      "available_unique_records": 100000,
+      "unique_records_collected": 191,
+      "collection_fraction": 0.00191,
+      "client_hashes": 2965325,
+      "client_cpu_seconds": 4.712627226,
+      "client_errors": 0,
+      "client_error_kinds": {},
+      "client_error_samples": [],
+      "dataset_exhausted": false,
+      "count_matches_server": true,
+      "records": 191,
+      "requests": 383,
+      "verification_cpu": 0.003201405000000407,
+      "rate_limit_denials": 0,
+      "unique_records_served": 191,
+      "server_cpu": 0.20014267300000002
+    },
+    {
+      "repeat": 2,
+      "condition": "rate-limit",
+      "bits": 0,
+      "client_processes": 1,
+      "budget_seconds": 5.0,
+      "rate_limit": {
+        "requests": 30,
+        "window_seconds": 1
+      },
+      "elapsed_seconds": 5.000536329999704,
+      "available_unique_records": 100000,
+      "unique_records_collected": 150,
+      "collection_fraction": 0.0015,
+      "client_hashes": 0,
+      "client_cpu_seconds": 0.10439316500000001,
+      "client_errors": 5,
+      "client_error_kinds": {
+        "http_429": 5
+      },
+      "client_error_samples": [
+        {
+          "kind": "http_429",
+          "stage": "record",
+          "status": 429,
+          "remaining_seconds": 4.97821639599988
+        },
+        {
+          "kind": "http_429",
+          "stage": "record",
+          "status": 429,
+          "remaining_seconds": 3.9522106880003776
+        },
+        {
+          "kind": "http_429",
+          "stage": "record",
+          "status": 429,
+          "remaining_seconds": 2.877652799000316
+        },
+        {
+          "kind": "http_429",
+          "stage": "record",
+          "status": 429,
+          "remaining_seconds": 1.858423509000204
+        },
+        {
+          "kind": "http_429",
+          "stage": "record",
+          "status": 429,
+          "remaining_seconds": 0.8423090960004629
+        }
+      ],
+      "dataset_exhausted": false,
+      "count_matches_server": true,
+      "records": 150,
+      "requests": 155,
+      "verification_cpu": 0.00018566100000036445,
+      "rate_limit_denials": 5,
+      "unique_records_served": 150,
+      "server_cpu": 0.08622955200000001
+    },
+    {
+      "repeat": 2,
+      "condition": "direct",
+      "bits": 0,
+      "client_processes": 1,
+      "budget_seconds": 5.0,
+      "rate_limit": null,
+      "elapsed_seconds": 5.000244650000241,
+      "available_unique_records": 100000,
+      "unique_records_collected": 11973,
+      "collection_fraction": 0.11973,
+      "client_hashes": 0,
+      "client_cpu_seconds": 2.72637342,
+      "client_errors": 0,
+      "client_error_kinds": {},
+      "client_error_samples": [],
+      "dataset_exhausted": false,
+      "count_matches_server": true,
+      "records": 11973,
+      "requests": 11973,
+      "verification_cpu": 0.010950492000025014,
+      "rate_limit_denials": 0,
+      "unique_records_served": 11973,
+      "server_cpu": 2.23880374
+    },
+    {
+      "repeat": 2,
+      "condition": "no-work",
+      "bits": 0,
+      "client_processes": 1,
+      "budget_seconds": 5.0,
+      "rate_limit": null,
+      "elapsed_seconds": 5.000485808000121,
+      "available_unique_records": 100000,
+      "unique_records_collected": 6996,
+      "collection_fraction": 0.06996,
+      "client_hashes": 0,
+      "client_cpu_seconds": 2.620465599,
+      "client_errors": 0,
+      "client_error_kinds": {},
+      "client_error_samples": [],
+      "dataset_exhausted": false,
+      "count_matches_server": true,
+      "records": 6996,
+      "requests": 13992,
+      "verification_cpu": 0.05848831200001833,
+      "rate_limit_denials": 0,
+      "unique_records_served": 6996,
+      "server_cpu": 2.627133288
+    }
+  ],
+  "summary": [
+    {
+      "client_processes": 1,
+      "condition": "direct",
+      "bits": 0,
+      "repeats": 3,
+      "unique_mean": 11946.666666666666,
+      "unique_median": 11973,
+      "unique_stdev": 1934.6344185228727,
+      "unique_min": 9999,
+      "unique_max": 13868,
+      "server_unique_mean": 11947,
+      "count_mismatch_runs": 1,
+      "client_cpu_mean": 2.8562703586666665,
+      "server_cpu_mean": 2.486901305,
+      "dataset_exhausted_runs": 0,
+      "client_errors": 1
+    },
+    {
+      "client_processes": 1,
+      "condition": "no-work",
+      "bits": 0,
+      "repeats": 3,
+      "unique_mean": 5947.666666666667,
+      "unique_median": 6293,
+      "unique_stdev": 1257.092810150998,
+      "unique_min": 4554,
+      "unique_max": 6996,
+      "server_unique_mean": 5947.666666666667,
+      "count_mismatch_runs": 0,
+      "client_cpu_mean": 2.7335133396666667,
+      "server_cpu_mean": 2.6465424963333333,
+      "dataset_exhausted_runs": 0,
+      "client_errors": 1
+    },
+    {
+      "client_processes": 1,
+      "condition": "pow",
+      "bits": 14,
+      "repeats": 3,
+      "unique_mean": 255,
+      "unique_median": 286,
+      "unique_stdev": 55.4346462061408,
+      "unique_min": 191,
+      "unique_max": 288,
+      "server_unique_mean": 255,
+      "count_mismatch_runs": 0,
+      "client_cpu_mean": 4.743282231333334,
+      "server_cpu_mean": 0.25396719166666665,
+      "dataset_exhausted_runs": 0,
+      "client_errors": 0
+    },
+    {
+      "client_processes": 1,
+      "condition": "rate-limit",
+      "bits": 0,
+      "repeats": 3,
+      "unique_mean": 150,
+      "unique_median": 150,
+      "unique_stdev": 0.0,
+      "unique_min": 150,
+      "unique_max": 150,
+      "server_unique_mean": 150,
+      "count_mismatch_runs": 0,
+      "client_cpu_mean": 0.07193124233333334,
+      "server_cpu_mean": 0.06942911166666667,
+      "dataset_exhausted_runs": 0,
+      "client_errors": 15
+    }
+  ]
+}

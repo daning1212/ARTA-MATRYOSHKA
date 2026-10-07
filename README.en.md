@@ -262,6 +262,19 @@ With one client process and matched two-round-trip exchanges, the mean of per-re
 
 Approximating distinct nonce hashes as independent uniform outputs gives success probability 2^-14 and **2^14 = 16,384 attempts on average**, including the successful hash. This is not a fixed attempt count or time guarantee. It is a small workload, not evidence of a meaningful barrier for optimized native code or GPUs. GPU costs were not measured, so we do not assert a numerical “free” cost. Interpret the measurements as **this fixed Python client slowing down with additional solver work**. A future difficulty sweep should keep matched round trips and time/resource budgets and report collection and costs on both sides; no such curve has been measured yet. The distinct-collection CLI, `arta.collectionbench --bits`, currently supports 1..18 bits.
 
+## Simple rate limit and error remeasurement
+
+```bash
+python -m arta.collectionbench --seconds 5 --repeats 5 --workers 1 2 4 --resources 100000 --include-rate-limit
+```
+
+The existing `Lab.allowed` policy (30 requests per IP per 60 seconds) is reused in the same collection harness for a four-condition comparison.
+This command budgets 60 runs × 5 seconds plus process preparation/shutdown. Clients honor Retry-After on 429 responses; this is not a flooding or DDoS availability test.
+Error kinds, stages, and remaining time separate policy rejections from transport and deadline errors.
+See [direct validation report](docs/RATELIMIT-REPORT.md), [main raw results](docs/ratelimit-results.json), and [one-second-window raw results](docs/ratelimit-window1-results.json).
+
+Across 72 remeasurement runs, all 24 non-policy errors in the main comparison were timeouts observed after the time budget ended. In five-second single-IP comparisons, rate limiting admitted 30 records at the default policy and 150 at 30 requests/second. Corresponding one-process PoW means were 286.6 and 255.0 records. This does not support PoW superiority under these settings. Legitimate-user allowances and impact were not matched, so no general ranking is established.
+
 ## Unverified claims and why
 
 **Unverified** means the current implementation and measurements do not establish a claim.
@@ -277,7 +290,7 @@ Passing functional tests is distinct from validating security effectiveness.
 | Scope of computation/round-trip cost separation | The baseline uses one HTTP request and the toll uses two. Round trips, Python loops, and server processing are confounded; the earlier two-arm experiment lacked a matched control. A separate three-arm experiment now compares protocol overhead with incremental PoW cost; it cannot retroactively decompose the earlier percentage or measure optimized pure hashing cost. | Further controlled repeats and optimized solver/server cost measurements |
 | Operational availability, legitimate-user impact, and real-data protection | This is a localhost synthetic-data pilot; the toll is not integrated with the main app or a production service. Real authentication and protected-asset boundaries, slow connections, flooding, and legitimate-user flows were not evaluated. | Isolated comparisons with synthetic protected assets, legitimate-request latency/errors, availability under load, and bypass-path tests |
 | No session binding for puzzles (tokens can be transferred/shared) | Known implementation limitation: proofs bind resource ID, expiry, and single use, but not a user, session, or device. Another client holding a token can use it. | A session-binding policy and cross-session rejection, legitimate-use, and replay tests |
-| No comparison against existing approaches | The complete approach has not been compared with simple rate limiting, ordinary PoW, or existing honeypots under matched conditions. The toll module itself uses ordinary hash PoW; a no-work control does not demonstrate superiority over existing approaches. | Matched goals/budgets and legitimate-user and defender-cost measurements |
+| Scope of existing-approach comparisons | Simple rate limiting and ordinary hash PoW were compared with the same synthetic records and time budget. Legitimate-user allowances and impact were not matched; the complete decoy approach and existing operational honeypots remain untested. General superiority is not established. | Comparisons matching legitimate-user allowances/impact and bypass paths, plus decoy/honeypot evaluations |
 | Complete, trustworthy records after compromise | UDP does not guarantee delivery; hash chains cannot prevent complete rewriting or deletion. Record safety after compromise of the shared OS account has not been validated. | Privilege-separated collection/storage and loss, forgery, deletion, and tampering tests |
 
 Writing isolation designs, matched controls, and longer-run experiment code is feasible.
