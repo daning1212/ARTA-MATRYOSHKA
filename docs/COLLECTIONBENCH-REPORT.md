@@ -90,10 +90,18 @@ SHA-256 퍼즐이 이 구현의 합성 자료 수집량을 줄였지만 방어 �
 그러나 설계나 코드가 있다는 이유만으로 위 항목을 검증 완료로 표시하지 않습니다.
 장비·권한·실험 범위의 한계를 보완한 뒤 실제 실행 결과를 추가해야 합니다.
 
+## 현재 코드와 과거 기록의 구분
+
+이 보고서와 원본 JSON은 당시 2조건·30회 실험의 기록을 유지합니다.
+현재 collectionbench CLI는 무계산 2왕복 대조군을 포함한 3조건·45회를 실행합니다.
+새 결과와 미검증 항목의 최신 상태는 [대조 실험 보고서](CONTROLBENCH-REPORT.md)와
+[README](../README.md#미검증-항목과-이유)를 확인하세요.
+
 ## 재현 및 검증
 
 ```bash
 python -m unittest discover -s tests -v
+# 아래 명령은 현재 버전에서 3조건 대조 실험을 실행합니다.
 python -m arta.collectionbench --seconds 5 --repeats 5 --workers 1 2 4 --resources 100000
 ```
 

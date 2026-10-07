@@ -4,6 +4,8 @@
 
 ## ARTA MATRYOSHKA — Arta Shield 🛡️
 
+**Research prototype · Not for production use. Do not connect real assets.**
+
 > **Firm boundaries. Defense that bends like bamboo.**
 
 ### What we want to build
@@ -46,6 +48,24 @@ This was a **localhost benchmark using fixed scripts and two-second runs**, not 
 
 The current release is a **local HTTP research lab**, not a production security product.
 It does not guarantee complete protection and must not be connected to real sensitive data.
+
+## Threat model and success criteria
+
+These are research objectives, not claims that the current app protects real assets.
+
+| Dimension | Scope |
+|---|---|
+| Adversaries | Automated scripts, AI agents, and people exploring or collecting records within bounded HTTP budgets. Only fixed scripts have been evaluated; AI and human behavior remains untested. |
+| Intended real assets | Private business API data, database exports/backups, service configuration, and access credentials. Independent authentication, access control, and isolation must protect those assets. Current experiments use synthetic substitutes and do not connect real assets. |
+| Access and behavior | HTTP access to decoys or experimental records. Adversaries may ignore hints, recognize decoys, share bearer proofs, and parallelize CPU work. Solving a puzzle is not trusted-user authentication. |
+| Out of scope | DDoS defense, preventing authentication bypass, and preventing OS/network isolation escape. This research neither fixes flaws in those boundaries nor guarantees those defenses. |
+| Evidence of help | Repeated reductions in distinct target collection or increases in target collection time against matched time, request, and resource budgets and identical synthetic goals. Decoy evaluation must measure additional exploration/verification behavior together with delayed target attainment. Legitimate-user latency/errors and defender CPU/availability must also be reported and meet predeclared limits. |
+
+Comparators should include a simple rate limit, ordinary PoW, existing honeypots, and disabled features.
+Acceptable user impact and minimum effect sizes must be defined before experiments; operational thresholds are not yet established.
+Decoy visits, reduced repeated-read throughput, or functional test counts alone are not success criteria.
+Access denied by a protected boundary is attributed to that boundary, not credited as a decoy or toll effect.
+Published results are preliminary synthetic collection and cost observations, not proof that these research objectives are achieved.
 
 ## Run the lab
 
@@ -161,11 +181,13 @@ python -m arta.collectionbench --seconds 5 --repeats 5 --workers 1 2 4 --resourc
 ```
 
 Each client runs in an independent Python process and fetches distinct synthetic records once.
-A common deadline starts after all clients report readiness. This command budgets 30 runs × 5 seconds
+A common deadline starts after all clients report readiness. The current command budgets 45 runs × 5 seconds
 plus process startup and shutdown. The larger dataset avoids baseline exhaustion. Output includes
-unique collection, CPU seconds, errors, and sample spread. The synchronous server and clients share
+unique collection, CPU seconds, errors, and sample spread across direct (one round trip), no-work (two round trips), and 14-bit PoW (two round trips). The no-work client does no hash search; the server still hashes once during token validation. The synchronous server and clients share
 the same host; this is not an AI, GPU, distributed-attack, or OS-isolation test.
-See [report](docs/COLLECTIONBENCH-REPORT.md) and [raw results](docs/collectionbench-results.json).
+See the [historical two-arm report](docs/COLLECTIONBENCH-REPORT.md), [three-arm control report](docs/CONTROLBENCH-REPORT.md), and [new raw results](docs/collectionbench-control-results.json).
+
+With one client process and matched two-round-trip exchanges, the mean of per-repeat distinct-collection reductions was approximately 95.4% for 14-bit PoW versus the no-work control. This observes incremental solver cost, not security effectiveness. The two-process condition had substantial variation, and errors occurred. These results do not retroactively decompose the earlier “98%” figure.
 
 ## Unverified claims and why
 
@@ -178,9 +200,11 @@ Passing functional tests is distinct from validating security effectiveness.
 | AI-agent exploration, deception, and abandonment | Executed evaluations use fixed scripts. There are no repeated actual-agent comparisons, and the isolation boundary for untrusted tools has not been validated. | Validated isolation; repeated decoy/no-decoy comparisons across models and strategies; paths, verification behavior, collection, and abandonment measurements |
 | Strong OS and network isolation | The default app uses separate processes under one OS account. App-enforced host-file, token, and outbound-network restrictions are not implemented and validated. Earlier network-namespace creation failed due to permissions, and Docker was unavailable for that evaluation. | Separate privileges, restricted file access, network policies, and tests demonstrating denied file and network operations |
 | Toll resistance to GPU or distributed computation | Measurements use 1, 2, or 4 CPU client processes on one host. There are no GPU or multi-host results; ordinary hash PoW is parallelizable. | Optimized CPU/GPU and multi-host comparisons with matched time and cost budgets |
-| Sustained performance and cross-environment reproducibility | The new measurements are five repetitions of five seconds per condition. Functional tests overlapped some intervals; dedicated resources, sustained load, and other machines were not evaluated. | Longer controlled repeats and published hardware, resource allocation, and load conditions |
-| The portion of the reduction caused by hashing alone | The baseline uses one HTTP request and the toll uses two. Round trips, Python loops, and server processing are confounded; a matched no-computation control has not been run. | A matched-request-count no-computation control and separate cost measurements |
+| Sustained performance and cross-environment reproducibility | The new measurements are five repetitions of five seconds per condition. Functional tests overlapped some intervals in the historical two-arm experiment, but not the new three-arm experiment. Dedicated resources, sustained load, and other machines were not evaluated. | Longer controlled repeats and published hardware, resource allocation, and load conditions |
+| Scope of computation/round-trip cost separation | The baseline uses one HTTP request and the toll uses two. Round trips, Python loops, and server processing are confounded; the earlier two-arm experiment lacked a matched control. A separate three-arm experiment now compares protocol overhead with incremental PoW cost; it cannot retroactively decompose the earlier percentage or measure optimized pure hashing cost. | Further controlled repeats and optimized solver/server cost measurements |
 | Operational availability, legitimate-user impact, and real-data protection | This is a localhost synthetic-data pilot; the toll is not integrated with the main app or a production service. Real authentication and protected-asset boundaries, slow connections, flooding, and legitimate-user flows were not evaluated. | Isolated comparisons with synthetic protected assets, legitimate-request latency/errors, availability under load, and bypass-path tests |
+| No session binding for puzzles (tokens can be transferred/shared) | Known implementation limitation: proofs bind resource ID, expiry, and single use, but not a user, session, or device. Another client holding a token can use it. | A session-binding policy and cross-session rejection, legitimate-use, and replay tests |
+| No comparison against existing approaches | The complete approach has not been compared with simple rate limiting, ordinary PoW, or existing honeypots under matched conditions. The toll module itself uses ordinary hash PoW; a no-work control does not demonstrate superiority over existing approaches. | Matched goals/budgets and legitimate-user and defender-cost measurements |
 | Complete, trustworthy records after compromise | UDP does not guarantee delivery; hash chains cannot prevent complete rewriting or deletion. Record safety after compromise of the shared OS account has not been validated. | Privilege-separated collection/storage and loss, forgery, deletion, and tampering tests |
 
 Writing isolation designs, matched controls, and longer-run experiment code is feasible.

@@ -40,7 +40,7 @@ class Gate:
         return True
 
 
-def server(bits, ready, resource_count=4):
+def server(bits, ready, resource_count=4, require_proof=False):
     gate = Gate(bits)
     counts = {'records': 0, 'requests': 0, 'verification_cpu': 0.0}
     served = set()
@@ -70,7 +70,7 @@ def server(bits, ready, resource_count=4):
                     status = 200 if value else 429
                 elif self.path == '/record':
                     start = time.process_time()
-                    accepted = bits == 0 or gate.redeem(data.get('challenge'), resource, data.get('nonce'))
+                    accepted = (bits == 0 and not require_proof) or gate.redeem(data.get('challenge'), resource, data.get('nonce'))
                     counts['verification_cpu'] += time.process_time() - start
                     status = 200 if accepted else 403
                     value = {'record': {'id': resource, 'name': 'SYNTHETIC DEMO', 'payload': 'x' * 128}} if accepted else {'error': 'proof required'}
