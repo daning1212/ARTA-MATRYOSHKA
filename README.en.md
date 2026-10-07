@@ -57,8 +57,14 @@ This measures added computation cost; throughput reduction alone does not establ
 This was a **localhost benchmark using fixed scripts and two-second runs**, not an AI attack blocking rate or a personal-data protection rate.
 [Methods and limitations](docs/TOLLBENCH-REPORT.md) · [Raw results](docs/tollbench-results.json)
 
+In the historical one-thread experiment, total server CPU decreased, but **server CPU per successful record response increased from approximately 0.1147ms to 0.4773ms**. Cost per successful response differs from cost per HTTP request. Lower total load does not establish improved per-record efficiency. The report includes sample standard deviation, minimum/maximum across three repeats, and both cost denominators.
+
 The current release is a **local HTTP research lab**, not a production security product.
 It does not guarantee complete protection and must not be connected to real sensitive data.
+
+## Related work and the research question
+
+Computational tolls belong to the established family of client work-cost mechanisms, including [Hashcash — A Denial of Service Counter-Measure (Adam Back, 2002; original-paper PDF mirror)](https://cdn.nakamotoinstitute.org/docs/hashcash.pdf) and [Client Puzzles (Ari Juels and John Brainard, NDSS 1999)](https://www.ndss-symposium.org/ndss1999/cryptographic-defense-against-connection-depletion-attacks/). [Anubis's official design documentation](https://github.com/TecharoHQ/anubis/blob/main/docs/docs/design/why-proof-of-work.mdx) also describes SHA-256 PoW; its [project overview](https://github.com/TecharoHQ/anubis) identifies AI crawler/scraper requests as a target. ARTA uses ordinary hash PoW, not a new cryptographic mechanism or demonstrated improvement over existing tools. Its intended question is **“How do decoy structures and computational tolls respond to AI-agent verification and retry behavior, and what changes in target attainment, exploration, abandonment, and costs on both sides?”** This remains a research question without actual-agent validation, separate from the current fixed-script cost measurements.
 
 ## Threat model and success criteria
 
@@ -251,6 +257,10 @@ the same host; this is not an AI, GPU, distributed-attack, or OS-isolation test.
 See the [historical two-arm report](docs/COLLECTIONBENCH-REPORT.md), [three-arm control report](docs/CONTROLBENCH-REPORT.md), and [new raw results](docs/collectionbench-control-results.json).
 
 With one client process and matched two-round-trip exchanges, the mean of per-repeat distinct-collection reductions was approximately 95.4% for 14-bit PoW versus the no-work control. This observes incremental solver cost, not security effectiveness. The two-process condition had substantial variation, and errors occurred. These results do not retroactively decompose the earlier “98%” figure.
+
+### What 14-bit difficulty means
+
+Approximating distinct nonce hashes as independent uniform outputs gives success probability 2^-14 and **2^14 = 16,384 attempts on average**, including the successful hash. This is not a fixed attempt count or time guarantee. It is a small workload, not evidence of a meaningful barrier for optimized native code or GPUs. GPU costs were not measured, so we do not assert a numerical “free” cost. Interpret the measurements as **this fixed Python client slowing down with additional solver work**. A future difficulty sweep should keep matched round trips and time/resource budgets and report collection and costs on both sides; no such curve has been measured yet. The distinct-collection CLI, `arta.collectionbench --bits`, currently supports 1..18 bits.
 
 ## Unverified claims and why
 
