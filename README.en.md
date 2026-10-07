@@ -1,12 +1,23 @@
-# Co-developed by Healing Arty & Arta
+# ARTA-MATRYOSHKA
+
+A research prototype for layered deception and delay
+
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/daning1212/ARTA-MATRYOSHKA/blob/main/LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://github.com/daning1212/ARTA-MATRYOSHKA/blob/main/README.en.md#run-the-lab)
+[![CI functional tests](https://github.com/daning1212/ARTA-MATRYOSHKA/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/daning1212/ARTA-MATRYOSHKA/actions/workflows/test.yml)
+
 
 [한국어](README.md) | **English**
 
-## ARTA MATRYOSHKA — Arta Shield 🛡️
+## Arta Shield 🛡️
 
 **Research prototype · Not for production use. Do not connect real assets.**
 
 > **Firm boundaries. Defense that bends like bamboo.**
+
+The name comes from the idea of connecting simulated rooms and clues in layers, like matryoshka dolls.
+The current implementation is finite; the name does not claim infinite nesting or escape prevention.
+The CI badge reports functional tests, not verified security effectiveness.
 
 ### What we want to build
 
@@ -90,6 +101,22 @@ If you change `--data-dir`, use the same value for the observer CLI.
 
 ## The simulated world
 
+```mermaid
+flowchart TD
+    entry["GET /"] --> admin["GET /admin"]
+    entry --> backup["GET /backup"]
+    admin --> diagnostics["GET /diagnostics"]
+    admin --> settings["/api/settings"]
+    diagnostics --> recovery["/recovery"]
+    backup -->|"Provides synthetic recovery code"| recovery
+    recovery -->|"POST with correct code"| workspace["GET /workspace"]
+    workspace --> settings
+```
+
+This diagram shows baseline links and a simulated state transition.
+Before recovery, `/workspace` returns 403, while `/api/settings` remains directly accessible.
+These are synthetic routes, not real privilege escalation or OS isolation boundaries.
+
 Entry `/` → administrator `/admin` or archive `/backup` → diagnostics `/diagnostics` or recovery `/recovery` → workspace `/workspace` → settings `/api/settings`.
 
 The workspace initially returns 403. Posting the synthetic recovery code from the archive changes the session's simulated state and permits workspace access.
@@ -105,6 +132,42 @@ curl -b cookies.txt http://127.0.0.1:8080/workspace
 curl -b cookies.txt -H 'Content-Type: application/json' \
   -d '{"maintenance":true}' http://127.0.0.1:8080/api/settings
 curl -b cookies.txt http://127.0.0.1:8080/api/settings
+```
+
+### Expected responses
+
+These JSON responses were checked against the baseline localhost HTTP server.
+Session-specific `marker` and `recovery_code` values are replaced with placeholders.
+Use the code from **your own `/backup` response**, not the placeholder, in the recovery POST.
+
+`GET /backup` — HTTP 200:
+
+```json
+{"revision":"legacy-04","marker":"<SESSION_MARKER>","files":["inventory.json"],"recovery":"/recovery","recovery_code":"<SESSION_RECOVERY_CODE>"}
+```
+
+`GET /workspace` before recovery — HTTP 403:
+
+```json
+{"error":"recovery required"}
+```
+
+`POST /recovery` with the correct code — HTTP 200:
+
+```json
+{"recovered":true,"target":"/workspace"}
+```
+
+`GET /workspace` after recovery with the same cookie — HTTP 200:
+
+```json
+{"environment":"workspace","role":"workspace-admin","settings":"/api/settings","archive":"/backup"}
+```
+
+After setting `maintenance` via `POST /api/settings`, querying again within the same session — HTTP 200:
+
+```json
+{"saved":true,"settings":{"maintenance":true}}
 ```
 
 Delete `cookies.txt` after the experiment.
@@ -220,6 +283,14 @@ The creator's hardware and execution environment limit the experiments we can pe
 The reports describe what we tested and what remains unverified.
 If you have suitable equipment and a safely isolated environment, please reproduce the code and extend the experiments.
 
+### First contributions
+
+These tasks have the `good first issue` label. Each issue specifies scope, reproduction steps, and completion criteria.
+
+- [Reproduce short-run results with one CPU process and 30-second runs (#3)](https://github.com/daning1212/ARTA-MATRYOSHKA/issues/3)
+- [Validate experiment JSON summaries, errors, and dataset exhaustion (#4)](https://github.com/daning1212/ARTA-MATRYOSHKA/issues/4)
+- [Write a minimal comparison plan for existing defense approaches (#5)](https://github.com/daning1212/ARTA-MATRYOSHKA/issues/5)
+
 We welcome longer runs and repeated measurements; multi-process, GPU, or distributed solvers; collection of distinct synthetic records; actual AI-agent verification, bypass, abandonment, and decoy-detection behavior; and measurements of defender cost and legitimate-user impact.
 
 Use owned or explicitly authorized isolated environments and synthetic data.
@@ -244,5 +315,7 @@ The following research reports are currently in Korean:
 - [Second-stage report and self-review](docs/REPORT.md)
 - [Additional idea review and scenario results](docs/IDEA-REVIEW.md)
 - [Computational-toll pilot report](docs/TOLLBENCH-REPORT.md)
+
+**Co-developed by:** Healing Arty & Arta.
 
 MIT License. Contributions, reproducibility checks, and constructive criticism are welcome.

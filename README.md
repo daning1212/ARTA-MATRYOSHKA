@@ -1,12 +1,23 @@
-# Healing Arty & Arta 공동개발
+# ARTA-MATRYOSHKA
+
+다층 기만·지연 연구 프로토타입
+
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/daning1212/ARTA-MATRYOSHKA/blob/main/LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://github.com/daning1212/ARTA-MATRYOSHKA#실행)
+[![CI functional tests](https://github.com/daning1212/ARTA-MATRYOSHKA/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/daning1212/ARTA-MATRYOSHKA/actions/workflows/test.yml)
+
 
 **한국어** | [English](README.en.md)
 
-## ARTA MATRYOSHKA — 아르타 쉴드 🛡️
+## 아르타 쉴드 🛡️
 
 **연구 프로토타입 · 운영 사용 불가. 실제 자산과 연결하지 마세요.**
 
 > **단단한 경계 위에, 대나무처럼 유연한 방어를.**
+
+마트료시카 인형처럼 가짜 방과 단서를 겹겹이 이어가는 구상에서 이름을 붙였습니다.
+현재 구현은 유한한 가짜 세계이며, 끝없는 중첩이나 탈출 방지를 구현했다는 뜻은 아닙니다.
+CI 배지는 기능 테스트 상태를 보여 주며 보안 효과 검증 배지가 아닙니다.
 
 ### 우리가 만들고 싶은 것
 
@@ -93,6 +104,22 @@ python -m arta
 
 ## 가짜 세계
 
+```mermaid
+flowchart TD
+    entry["GET /"] --> admin["GET /admin"]
+    entry --> backup["GET /backup"]
+    admin --> diagnostics["GET /diagnostics"]
+    admin --> settings["/api/settings"]
+    diagnostics --> recovery["/recovery"]
+    backup -->|"가짜 복구 코드 제공"| recovery
+    recovery -->|"올바른 코드로 POST"| workspace["GET /workspace"]
+    workspace --> settings
+```
+
+기본 프리셋의 링크 안내와 가짜 상태 전이를 보여 주는 흐름도입니다.
+복구 전 `/workspace`는 403을 반환하지만 `/api/settings`는 직접 조회할 수 있습니다.
+모든 경로는 합성 상태이며, 실제 서버 권한 상승이나 OS 격리 경계를 나타내지 않습니다.
+
 입구 `/` → 관리자 `/admin` 또는 백업 `/backup` → 진단 `/diagnostics` 또는 복구 `/recovery`
 → 작업 공간 `/workspace` → 설정 `/api/settings`.
 
@@ -111,6 +138,42 @@ curl -b cookies.txt http://127.0.0.1:8080/workspace
 curl -b cookies.txt -H 'Content-Type: application/json' \
   -d '{"maintenance":true}' http://127.0.0.1:8080/api/settings
 curl -b cookies.txt http://127.0.0.1:8080/api/settings
+```
+
+### 예상 응답
+
+기본 프리셋을 localhost에서 실제 실행해 확인한 JSON입니다.
+`marker`와 `recovery_code`는 세션마다 달라서 아래에서는 자리표시자로 바꿨습니다.
+POST에는 자리표시자가 아니라 **자신의 `/backup` 응답에서 받은 코드**를 사용하세요.
+
+`GET /backup` — HTTP 200:
+
+```json
+{"revision":"legacy-04","marker":"<SESSION_MARKER>","files":["inventory.json"],"recovery":"/recovery","recovery_code":"<SESSION_RECOVERY_CODE>"}
+```
+
+복구 전 `GET /workspace` — HTTP 403:
+
+```json
+{"error":"recovery required"}
+```
+
+올바른 코드를 보낸 `POST /recovery` — HTTP 200:
+
+```json
+{"recovered":true,"target":"/workspace"}
+```
+
+같은 쿠키로 복구 후 `GET /workspace` — HTTP 200:
+
+```json
+{"environment":"workspace","role":"workspace-admin","settings":"/api/settings","archive":"/backup"}
+```
+
+`POST /api/settings`로 `maintenance`를 변경한 뒤 같은 세션에서 재조회 — HTTP 200:
+
+```json
+{"saved":true,"settings":{"maintenance":true}}
 ```
 
 실험 후 `cookies.txt`를 삭제하세요. 세션은 15분 또는 세계 요청 100회로 제한됩니다.
@@ -211,6 +274,14 @@ python -m arta.collectionbench --seconds 5 --repeats 5 --workers 1 2 4 --resourc
 제작자의 장비와 실행 환경에 한계가 있어, 현재 보고서에 명시한 범위까지만 실험했습니다.
 더 적합한 장비와 안전하게 격리된 환경을 갖춘 분이라면, 공개한 코드를 재현하고 실험을 확장해 주세요.
 
+### 처음 기여한다면
+
+아래 작업은 `good first issue` 라벨로 열려 있습니다. 각 Issue에 범위·실행 방법·완료 기준을 적었습니다.
+
+- [CPU 1프로세스·30초 반복 측정으로 단기 결과 재현 (#3)](https://github.com/daning1212/ARTA-MATRYOSHKA/issues/3)
+- [실험 JSON의 요약·오류·자료 소진 검사 도구 (#4)](https://github.com/daning1212/ARTA-MATRYOSHKA/issues/4)
+- [기존 방어 방식 비교 실험의 최소 계획 작성 (#5)](https://github.com/daning1212/ARTA-MATRYOSHKA/issues/5)
+
 특히 다음 검증을 환영합니다.
 
 - 더 긴 실행과 반복 측정에서 결과가 유지되는지.
@@ -236,5 +307,7 @@ python -m unittest discover -s tests -v
 - [2단계 개발 보고서와 자체 문답](docs/REPORT.md)
 - [추가 아이디어 검토·테스트 결과](docs/IDEA-REVIEW.md)
 - [계산 통행료 예비 실험 보고서](docs/TOLLBENCH-REPORT.md)
+
+**공동개발:** Healing Arty & Arta.
 
 MIT License. 개선 제안과 기여를 환영합니다.
