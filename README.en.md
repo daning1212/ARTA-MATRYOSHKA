@@ -39,7 +39,8 @@ We publish reproducible code, experimental conditions, raw results, unsuccessful
 | Strong OS and network isolation | Incomplete |
 | External alerts, production integration, and two-person approval | Future work |
 
-The computational-toll pilot observed approximately 98% lower repeated-read throughput.
+The computational-toll pilot observed lower repeated-read throughput after adding puzzle work.
+This measures added computation cost; throughput reduction alone does not establish defensive effectiveness.
 This was a **localhost benchmark using fixed scripts and two-second runs**, not an AI attack blocking rate or a personal-data protection rate.
 [Methods and limitations](docs/TOLLBENCH-REPORT.md) · [Raw results](docs/tollbench-results.json)
 
@@ -151,6 +152,20 @@ The database page budget is not a total disk-space limit.
 Production login protection, distributed-attack defenses, Wi-Fi security, DDoS protection, two-person approval, VDFs, external alerts, and a graphical dashboard are not implemented.
 Use only synthetic data in owned or explicitly authorized lab environments.
 Strong isolation must be independently established and validated before running untrusted attack tools.
+
+
+## Distinct synthetic record collection
+
+```bash
+python -m arta.collectionbench --seconds 5 --repeats 5 --workers 1 2 4 --resources 100000
+```
+
+Each client runs in an independent Python process and fetches distinct synthetic records once.
+A common deadline starts after all clients report readiness. This command budgets 30 runs × 5 seconds
+plus process startup and shutdown. The larger dataset avoids baseline exhaustion. Output includes
+unique collection, CPU seconds, errors, and sample spread. The synchronous server and clients share
+the same host; this is not an AI, GPU, distributed-attack, or OS-isolation test.
+See [report](docs/COLLECTIONBENCH-REPORT.md) and [raw results](docs/collectionbench-results.json).
 
 ## An invitation to reproduce and extend the research
 

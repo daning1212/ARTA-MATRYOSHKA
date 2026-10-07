@@ -1,6 +1,6 @@
 # Healing Arty & Arta 공동개발 — 추가 아이디어 검토·개발 보고서
 
-2026-10-07。ARTA MATRYOSHKA ローカル実験版。公開防御製品ではない。
+2026-10-07. ARTA MATRYOSHKA 로컬 실험판. 운영용 방어 제품이 아니다.
 
 ## 결론
 

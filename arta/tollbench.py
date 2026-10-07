@@ -40,9 +40,10 @@ class Gate:
         return True
 
 
-def server(bits, ready):
+def server(bits, ready, resource_count=4):
     gate = Gate(bits)
     counts = {'records': 0, 'requests': 0, 'verification_cpu': 0.0}
+    served = set()
     class Handler(BaseHTTPRequestHandler):
         def setup(self):
             super().setup()
@@ -59,7 +60,10 @@ def server(bits, ready):
                 if not isinstance(data, dict):
                     raise ValueError()
                 resource = data.get('resource')
-                if not isinstance(resource, str) or resource not in {'demo-0', 'demo-1', 'demo-2', 'demo-3'}:
+                if (not isinstance(resource, str) or not resource.startswith('demo-')
+                        or not resource[5:].isascii() or not resource[5:].isdigit()
+                        or not 0 <= int(resource[5:]) < resource_count
+                        or resource != f'demo-{int(resource[5:])}'):
                     raise ValueError()
                 if self.path == '/challenge':
                     value = gate.issue(resource)
@@ -71,6 +75,8 @@ def server(bits, ready):
                     status = 200 if accepted else 403
                     value = {'record': {'id': resource, 'name': 'SYNTHETIC DEMO', 'payload': 'x' * 128}} if accepted else {'error': 'proof required'}
                     counts['records'] += int(accepted)
+                    if accepted:
+                        served.add(resource)
                 else:
                     status, value = 404, {}
             except (ValueError, TypeError, RecursionError, TimeoutError):
@@ -90,7 +96,8 @@ def server(bits, ready):
     while not ready.poll():
         http.handle_request()
     ready.recv()
-    ready.send({**counts, 'server_cpu': time.process_time() - start})
+    ready.send({**counts, 'unique_records_served': len(served),
+                'server_cpu': time.process_time() - start})
     http.server_close()
 
 
