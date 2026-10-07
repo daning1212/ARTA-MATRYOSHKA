@@ -5,9 +5,11 @@ import hashlib
 import http.client
 import json
 import multiprocessing
+import queue
 import secrets
 import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from .web import Lab
 
 
 class Gate:
@@ -40,9 +42,11 @@ class Gate:
         return True
 
 
-def server(bits, ready, resource_count=4, require_proof=False):
+def server(bits, ready, resource_count=4, require_proof=False, rate_limit=None):
     gate = Gate(bits)
+    limiter = Lab(queue.Queue(), rate=rate_limit[0], window=rate_limit[1]) if rate_limit else None
     counts = {'records': 0, 'requests': 0, 'verification_cpu': 0.0}
+    counts['rate_limit_denials'] = 0
     served = set()
     class Handler(BaseHTTPRequestHandler):
         def setup(self):
@@ -65,7 +69,10 @@ def server(bits, ready, resource_count=4, require_proof=False):
                         or not 0 <= int(resource[5:]) < resource_count
                         or resource != f'demo-{int(resource[5:])}'):
                     raise ValueError()
-                if self.path == '/challenge':
+                if limiter and not limiter.allowed(self.client_address[0]):
+                    status, value = 429, {'error': 'request limit exceeded'}
+                    counts['rate_limit_denials'] += 1
+                elif self.path == '/challenge':
                     value = gate.issue(resource)
                     status = 200 if value else 429
                 elif self.path == '/record':
@@ -84,6 +91,8 @@ def server(bits, ready, resource_count=4, require_proof=False):
             raw = json.dumps(value).encode()
             self.send_response(status)
             self.send_header('Content-Length', str(len(raw)))
+            if status == 429 and limiter:
+                self.send_header('Retry-After', str(limiter.window))
             self.end_headers()
             try:
                 self.wfile.write(raw)

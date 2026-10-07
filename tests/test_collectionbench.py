@@ -1,13 +1,37 @@
 import http.client
 import json
 import multiprocessing
+import queue
 import unittest
+from unittest.mock import patch
 
 from arta.collectionbench import summarize, trial
 from arta.tollbench import server
+from arta.web import Lab
 
 
 class CollectionTests(unittest.TestCase):
+    def test_existing_rate_window_replenishes_and_separates_ips(self):
+        lab = Lab(queue.Queue(), rate=2, window=1)
+        with patch('arta.web.time.monotonic', return_value=0):
+            self.assertTrue(lab.allowed('one'))
+            self.assertTrue(lab.allowed('one'))
+            self.assertFalse(lab.allowed('one'))
+            self.assertTrue(lab.allowed('two'))
+        with patch('arta.web.time.monotonic', return_value=0.9):
+            self.assertFalse(lab.allowed('one'))
+        with patch('arta.web.time.monotonic', return_value=1):
+            self.assertTrue(lab.allowed('one'))
+
+    def test_rate_limit_is_shared_across_clients_on_one_ip(self):
+        result = trial(0, 0.3, 2, resources=8, rate_limit=(3, 60))
+        self.assertEqual(result['condition'], 'rate-limit')
+        self.assertEqual(result['unique_records_collected'], 3)
+        self.assertEqual(result['client_hashes'], 0)
+        self.assertGreater(result['rate_limit_denials'], 0)
+        self.assertEqual(result['client_error_kinds'], {'http_429': result['client_errors']})
+        self.assertTrue(result['count_matches_server'])
+
     def test_zero_bit_server_enforces_token_and_single_use(self):
         ctx = multiprocessing.get_context('spawn')
         parent, child = ctx.Pipe()
@@ -69,7 +93,10 @@ class CollectionTests(unittest.TestCase):
         self.assertEqual(result['client_errors'], 0)
 
     def test_invalid_configuration(self):
-        for kwargs in ({'bits': 19}, {'workers': 0}, {'resources': 0}, {'seconds': 301}):
+        for kwargs in ({'bits': 19}, {'workers': 0}, {'resources': 0}, {'seconds': 301},
+                       {'rate_limit': (0, 1)}, {'rate_limit': (1, 0)},
+                       {'rate_limit': (1, 61)}, {'rate_limit': (1, 1), 'bits': 4},
+                       {'rate_limit': (1, 1), 'require_proof': True}):
             values = dict(bits=0, seconds=1, workers=1, resources=8)
             values.update(kwargs)
             with self.assertRaises(ValueError):
