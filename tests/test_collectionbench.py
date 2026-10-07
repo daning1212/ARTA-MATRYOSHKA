@@ -1,9 +1,56 @@
+import http.client
+import json
+import multiprocessing
 import unittest
 
 from arta.collectionbench import summarize, trial
+from arta.tollbench import server
 
 
 class CollectionTests(unittest.TestCase):
+    def test_zero_bit_server_enforces_token_and_single_use(self):
+        ctx = multiprocessing.get_context('spawn')
+        parent, child = ctx.Pipe()
+        process = ctx.Process(target=server, args=(0, child, 8, True))
+        process.start()
+        child.close()
+        try:
+            self.assertTrue(parent.poll(5))
+            port = parent.recv()
+            def post(path, data):
+                connection = http.client.HTTPConnection('127.0.0.1', port, timeout=2)
+                try:
+                    connection.request('POST', path, json.dumps(data))
+                    response = connection.getresponse()
+                    return response.status, json.loads(response.read())
+                finally:
+                    connection.close()
+            self.assertEqual(post('/record', {'resource': 'demo-0'})[0], 403)
+            status, challenge = post('/challenge', {'resource': 'demo-0'})
+            self.assertEqual(status, 200)
+            proof = dict(resource='demo-0', challenge=challenge['challenge'], nonce=0)
+            self.assertEqual(post('/record', dict(proof, resource='demo-1'))[0], 403)
+            self.assertEqual(post('/record', proof)[0], 200)
+            self.assertEqual(post('/record', proof)[0], 403)
+            parent.send('stop')
+            self.assertTrue(parent.poll(5))
+            self.assertEqual(parent.recv()['records'], 1)
+        finally:
+            process.join(timeout=2)
+            if process.is_alive():
+                process.terminate()
+                process.join(timeout=2)
+            parent.close()
+
+    def test_no_work_control_matches_two_exchanges_without_search(self):
+        result = trial(0, 2, 2, resources=8, require_proof=True)
+        self.assertEqual(result['condition'], 'no-work')
+        self.assertEqual(result['unique_records_collected'], 8)
+        self.assertEqual(result['requests'], 16)
+        self.assertEqual(result['client_hashes'], 0)
+        self.assertTrue(result['count_matches_server'])
+        self.assertEqual(result['client_errors'], 0)
+
     def test_finite_dataset_with_multiple_processes(self):
         result = trial(0, 2, 2, resources=8)
         self.assertEqual(result['unique_records_collected'], 8)

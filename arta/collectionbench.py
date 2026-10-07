@@ -15,7 +15,7 @@ import time
 from .tollbench import server
 
 
-def _client(port, bits, index, workers, resources, channel):
+def _client(port, bits, index, workers, resources, channel, require_proof=False):
     channel.send('ready')
     deadline = channel.recv()
     start_cpu = time.process_time()
@@ -40,13 +40,17 @@ def _client(port, bits, index, workers, resources, channel):
         resource = f'demo-{number}'
         proof = {'resource': resource}
         try:
-            if bits:
+            if bits or require_proof:
                 status, challenge = post('/challenge', proof)
                 if status != 200:
                     errors += 1
                     continue
-                solved = False
-                for nonce in range(2**32):
+                # Zero-bit control performs both HTTP exchanges and redeems a
+                # bound, expiring, single-use token, without client hash search.
+                solved = bits == 0
+                if solved:
+                    proof.update(challenge=challenge['challenge'], nonce=0)
+                for nonce in (range(2**32) if bits else ()):
                     if time.monotonic() >= deadline:
                         break
                     hashes += 1
@@ -70,15 +74,16 @@ def _client(port, bits, index, workers, resources, channel):
     channel.close()
 
 
-def trial(bits, seconds, workers, resources=10000):
+def trial(bits, seconds, workers, resources=10000, require_proof=False):
     if (type(bits) is not int or not 0 <= bits <= 18
             or not 0.1 <= seconds <= 300
             or type(workers) is not int or not 1 <= workers <= 8
-            or type(resources) is not int or not 1 <= resources <= 100000):
+            or type(resources) is not int or not 1 <= resources <= 100000
+            or type(require_proof) is not bool):
         raise ValueError('bits 0..18, seconds 0.1..300, workers 1..8, resources 1..100000')
     ctx = multiprocessing.get_context('spawn')
     parent, child = ctx.Pipe()
-    service = ctx.Process(target=server, args=(bits, child, resources))
+    service = ctx.Process(target=server, args=(bits, child, resources, require_proof))
     clients, channels = [], []
     service.start()
     child.close()
@@ -89,7 +94,7 @@ def trial(bits, seconds, workers, resources=10000):
         for index in range(workers):
             control, remote = ctx.Pipe()
             client = ctx.Process(target=_client,
-                                 args=(port, bits, index, workers, resources, remote))
+                                 args=(port, bits, index, workers, resources, remote, require_proof))
             channels.append(control)
             clients.append(client)
             client.start()
@@ -112,7 +117,8 @@ def trial(bits, seconds, workers, resources=10000):
             raise RuntimeError('server failed to stop')
         stats = parent.recv()
         client_count = sum(result['unique_records_collected'] for result in results)
-        return {'bits': bits, 'client_processes': workers, 'budget_seconds': seconds,
+        condition = 'pow' if bits else ('no-work' if require_proof else 'direct')
+        return {'condition': condition, 'bits': bits, 'client_processes': workers, 'budget_seconds': seconds,
                 'elapsed_seconds': elapsed, 'available_unique_records': resources,
                 'unique_records_collected': client_count,
                 'collection_fraction': client_count / resources,
@@ -135,12 +141,13 @@ def trial(bits, seconds, workers, resources=10000):
 def summarize(runs):
     groups = {}
     for run in runs:
-        key = (run['client_processes'], run['bits'])
+        condition = run.get('condition', 'pow' if run['bits'] else 'direct')
+        key = (run['client_processes'], condition, run['bits'])
         groups.setdefault(key, []).append(run)
     summaries = []
-    for (workers, bits), group in sorted(groups.items()):
+    for (workers, condition, bits), group in sorted(groups.items()):
         values = [run['unique_records_collected'] for run in group]
-        summaries.append({'client_processes': workers, 'bits': bits,
+        summaries.append({'client_processes': workers, 'condition': condition, 'bits': bits,
                           'repeats': len(group), 'unique_mean': statistics.mean(values),
                           'unique_median': statistics.median(values),
                           'unique_stdev': statistics.stdev(values) if len(values) > 1 else None,
@@ -160,7 +167,7 @@ def main():
     parser.add_argument('--repeats', type=int, default=5)
     parser.add_argument('--workers', type=int, nargs='+', default=[1, 2, 4])
     parser.add_argument('--bits', type=int, default=14)
-    parser.add_argument('--resources', type=int, default=10000)
+    parser.add_argument('--resources', type=int, default=100000)
     args = parser.parse_args()
     if (not 0.1 <= args.seconds <= 300 or not 1 <= args.repeats <= 10
             or not 1 <= args.bits <= 18 or not 1 <= args.resources <= 100000
@@ -170,18 +177,23 @@ def main():
         parser.error('seconds 0.1..300, repeats 1..10, bits 1..18, resources 1..100000, distinct workers 1..8')
     runs = []
     for repeat in range(args.repeats):
-        # Rotate process-count order and reverse baseline/toll order each repeat.
+        # Rotate process-count and condition order; retain repeat IDs for paired comparisons.
         order = args.workers[repeat % len(args.workers):] + args.workers[:repeat % len(args.workers)]
         for workers in order:
-            for bits in ((0, args.bits) if repeat % 2 == 0 else (args.bits, 0)):
-                runs.append({'repeat': repeat, **trial(bits, args.seconds, workers, args.resources)})
+            conditions = [(0, False), (0, True), (args.bits, True)]
+            offset = repeat % len(conditions)
+            conditions = conditions[offset:] + conditions[:offset]
+            if repeat % 2:
+                conditions.reverse()
+            for bits, require_proof in conditions:
+                runs.append({'repeat': repeat, **trial(bits, args.seconds, workers, args.resources, require_proof)})
     print(json.dumps({'kind': 'localhost-finite-synthetic-collection', 'ai_test': False,
                       'environment': {'python': platform.python_version(),
                                       'platform': platform.platform(), 'logical_cpus': os.cpu_count()},
                       'limitations': ['same-host CPU contention', 'single synchronous HTTP server',
                                       'no verified OS/network isolation', 'no GPU or distributed client',
                                       'puzzle costs alone do not establish security effectiveness'],
-                      'planned_budget_seconds': args.seconds * args.repeats * len(args.workers) * 2,
+                      'planned_budget_seconds': args.seconds * args.repeats * len(args.workers) * 3,
                       'runs': runs, 'summary': summarize(runs)}, indent=2))
 
 
