@@ -167,6 +167,26 @@ unique collection, CPU seconds, errors, and sample spread. The synchronous serve
 the same host; this is not an AI, GPU, distributed-attack, or OS-isolation test.
 See [report](docs/COLLECTIONBENCH-REPORT.md) and [raw results](docs/collectionbench-results.json).
 
+## Unverified claims and why
+
+**Unverified** means the current implementation and measurements do not establish a claim.
+It does not mean the approach has been disproved or can never be evaluated.
+Passing functional tests is distinct from validating security effectiveness.
+
+| Unverified claim | Why it remains unverified | Evidence needed |
+|---|---|---|
+| AI-agent exploration, deception, and abandonment | Executed evaluations use fixed scripts. There are no repeated actual-agent comparisons, and the isolation boundary for untrusted tools has not been validated. | Validated isolation; repeated decoy/no-decoy comparisons across models and strategies; paths, verification behavior, collection, and abandonment measurements |
+| Strong OS and network isolation | The default app uses separate processes under one OS account. App-enforced host-file, token, and outbound-network restrictions are not implemented and validated. Earlier network-namespace creation failed due to permissions, and Docker was unavailable for that evaluation. | Separate privileges, restricted file access, network policies, and tests demonstrating denied file and network operations |
+| Toll resistance to GPU or distributed computation | Measurements use 1, 2, or 4 CPU client processes on one host. There are no GPU or multi-host results; ordinary hash PoW is parallelizable. | Optimized CPU/GPU and multi-host comparisons with matched time and cost budgets |
+| Sustained performance and cross-environment reproducibility | The new measurements are five repetitions of five seconds per condition. Functional tests overlapped some intervals; dedicated resources, sustained load, and other machines were not evaluated. | Longer controlled repeats and published hardware, resource allocation, and load conditions |
+| The portion of the reduction caused by hashing alone | The baseline uses one HTTP request and the toll uses two. Round trips, Python loops, and server processing are confounded; a matched no-computation control has not been run. | A matched-request-count no-computation control and separate cost measurements |
+| Operational availability, legitimate-user impact, and real-data protection | This is a localhost synthetic-data pilot; the toll is not integrated with the main app or a production service. Real authentication and protected-asset boundaries, slow connections, flooding, and legitimate-user flows were not evaluated. | Isolated comparisons with synthetic protected assets, legitimate-request latency/errors, availability under load, and bypass-path tests |
+| Complete, trustworthy records after compromise | UDP does not guarantee delivery; hash chains cannot prevent complete rewriting or deletion. Record safety after compromise of the shared OS account has not been validated. | Privilege-separated collection/storage and loss, forgery, deletion, and tampering tests |
+
+Writing isolation designs, matched controls, and longer-run experiment code is feasible.
+A design or implementation alone does not validate these claims.
+Additional equipment, permissions, and executed evaluations are needed before changing their status.
+
 ## An invitation to reproduce and extend the research
 
 This project publishes ideas and preliminary experiments for defense against AI-assisted attacks.
