@@ -3,9 +3,10 @@ import json
 import socket
 import secrets
 import threading
+import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from .audit import Store
-from .world import ROOMS
+from .world import ROOMS, REALMS
 
 
 FIELDS = {'peer', 'method', 'room', 'status', 'session_tag', 'realm_before', 'realm_after', 'transition', 'steps'}
@@ -24,9 +25,9 @@ def valid(event):
     if tag is not None and (not isinstance(tag, str) or len(tag) != 16 or any(c not in '0123456789abcdef' for c in tag)):
         return False
     for field in ('realm_before', 'realm_after'):
-        if event[field] not in {None, 'sandbox', 'workspace'}:
+        if event[field] not in REALMS:
             return False
-    return event['transition'] in {None, 'sandbox_to_workspace'} and (event['steps'] is None or type(event['steps']) is int and 0 <= event['steps'] <= 101)
+    return event['transition'] in {None, 'sandbox_to_workspace', 'false_exit'} and (event['steps'] is None or type(event['steps']) is int and 0 <= event['steps'] <= 101)
 
 
 def monitor_handler(store, token, stats):
@@ -71,14 +72,22 @@ def monitor_handler(store, token, stats):
 
 def serve(port, database, token, ingest_token, ready):
     store = Store(database)
-    stats = {'rejected': 0, 'storage_errors': 0, 'accepted': 0}
+    stats = {'rejected': 0, 'storage_errors': 0, 'accepted': 0, 'throttled': 0}
     inbox = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     inbox.bind(('127.0.0.1', 0))
 
     def consume():
+        window, count = time.monotonic(), 0
         while True:
             try:
                 raw, _ = inbox.recvfrom(2049)
+                now = time.monotonic()
+                if now - window >= 1:
+                    window, count = now, 0
+                count += 1
+                if count > 100:
+                    stats['throttled'] += 1
+                    continue
                 if len(raw) > 2048:
                     raise ValueError()
                 envelope = json.loads(raw)

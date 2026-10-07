@@ -8,16 +8,17 @@ import socket
 import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import urlsplit
-from .world import ROOMS, new_state, route
+from .world import ROOMS, new_state, route, WorldConfig
 from .telemetry import DatagramSink
 
 
 class Lab:
-    def __init__(self, sink, rate=30, window=60, capacity=1000):
+    def __init__(self, sink, rate=30, window=60, capacity=1000, config=None):
         self.sink, self.rate, self.window, self.capacity = sink, rate, window, capacity
         self.clients = collections.OrderedDict()
         self.sessions = collections.OrderedDict()
         self.dropped = 0
+        self.config = config or WorldConfig()
 
     def record(self, event):
         # A full/failed collector never blocks the decoy waiting for storage.
@@ -45,7 +46,7 @@ class Lab:
         now = time.monotonic()
         if token not in self.sessions or self.sessions[token]['expires'] <= now:
             token = secrets.token_urlsafe(24)
-            self.sessions[token] = new_state(now)
+            self.sessions[token] = new_state(now, self.config)
         self.sessions.move_to_end(token)
         while len(self.sessions) > self.capacity:
             self.sessions.popitem(last=False)
@@ -135,9 +136,9 @@ def handler(lab):
     return Handler
 
 
-def serve(port, ingest_port, ingest_token, ready):
+def serve(port, ingest_port, ingest_token, ready, config=None):
     sink = DatagramSink(ingest_port, ingest_token)
-    server = HTTPServer(('127.0.0.1', port), handler(Lab(sink)))
+    server = HTTPServer(('127.0.0.1', port), handler(Lab(sink, config=config)))
     ready.send(server.server_port)
     ready.close()
     try:

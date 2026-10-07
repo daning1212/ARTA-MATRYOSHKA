@@ -1,0 +1,1368 @@
+{
+  "kind": "scripted-functional-comparison",
+  "warning": "Fixed scripts, no LLM, no inference or attacker cost measurement.",
+  "runs": [
+    {
+      "scenario": "baseline",
+      "strategy": "direct",
+      "requests": 6,
+      "distinct_paths": 6,
+      "repeated_gets": 0,
+      "false_exit_transitions": 0,
+      "simulated_setting_changed": true,
+      "ai_effectiveness": "not measured",
+      "trace": [
+        {
+          "method": "GET",
+          "path": "/",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/backup",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/recovery",
+          "status": 200,
+          "transition": "sandbox_to_workspace"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        }
+      ]
+    },
+    {
+      "scenario": "baseline",
+      "strategy": "verify",
+      "requests": 10,
+      "distinct_paths": 7,
+      "repeated_gets": 2,
+      "false_exit_transitions": 0,
+      "simulated_setting_changed": true,
+      "ai_effectiveness": "not measured",
+      "trace": [
+        {
+          "method": "GET",
+          "path": "/",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/backup",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 403,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/diagnostics",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/recovery",
+          "status": 200,
+          "transition": "sandbox_to_workspace"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/diagnostics",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        }
+      ]
+    },
+    {
+      "scenario": "baseline",
+      "strategy": "enumerate",
+      "requests": 8,
+      "distinct_paths": 6,
+      "repeated_gets": 2,
+      "false_exit_transitions": 0,
+      "simulated_setting_changed": true,
+      "ai_effectiveness": "not measured",
+      "trace": [
+        {
+          "method": "GET",
+          "path": "/",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/backup",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/backup",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/recovery",
+          "status": 200,
+          "transition": "sandbox_to_workspace"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        }
+      ]
+    },
+    {
+      "scenario": "linked",
+      "strategy": "direct",
+      "requests": 8,
+      "distinct_paths": 7,
+      "repeated_gets": 1,
+      "false_exit_transitions": 1,
+      "simulated_setting_changed": true,
+      "ai_effectiveness": "not measured",
+      "trace": [
+        {
+          "method": "GET",
+          "path": "/",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/backup",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/recovery",
+          "status": 200,
+          "transition": "sandbox_to_workspace"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/exit/0",
+          "status": 200,
+          "transition": "false_exit"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        }
+      ]
+    },
+    {
+      "scenario": "linked",
+      "strategy": "verify",
+      "requests": 14,
+      "distinct_paths": 9,
+      "repeated_gets": 4,
+      "false_exit_transitions": 1,
+      "simulated_setting_changed": true,
+      "ai_effectiveness": "not measured",
+      "trace": [
+        {
+          "method": "GET",
+          "path": "/",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/backup",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 403,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/diagnostics",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/manifest",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/recovery",
+          "status": 200,
+          "transition": "sandbox_to_workspace"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/diagnostics",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/exit/0",
+          "status": 200,
+          "transition": "false_exit"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/diagnostics",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        }
+      ]
+    },
+    {
+      "scenario": "linked",
+      "strategy": "enumerate",
+      "requests": 10,
+      "distinct_paths": 7,
+      "repeated_gets": 3,
+      "false_exit_transitions": 1,
+      "simulated_setting_changed": true,
+      "ai_effectiveness": "not measured",
+      "trace": [
+        {
+          "method": "GET",
+          "path": "/",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/backup",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/backup",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/recovery",
+          "status": 200,
+          "transition": "sandbox_to_workspace"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/exit/0",
+          "status": 200,
+          "transition": "false_exit"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        }
+      ]
+    },
+    {
+      "scenario": "many-doors",
+      "strategy": "direct",
+      "requests": 8,
+      "distinct_paths": 7,
+      "repeated_gets": 1,
+      "false_exit_transitions": 1,
+      "simulated_setting_changed": true,
+      "ai_effectiveness": "not measured",
+      "trace": [
+        {
+          "method": "GET",
+          "path": "/",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/backup",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/recovery",
+          "status": 200,
+          "transition": "sandbox_to_workspace"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/exit/0",
+          "status": 200,
+          "transition": "false_exit"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        }
+      ]
+    },
+    {
+      "scenario": "many-doors",
+      "strategy": "verify",
+      "requests": 14,
+      "distinct_paths": 9,
+      "repeated_gets": 4,
+      "false_exit_transitions": 1,
+      "simulated_setting_changed": true,
+      "ai_effectiveness": "not measured",
+      "trace": [
+        {
+          "method": "GET",
+          "path": "/",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/backup",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 403,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/diagnostics",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/manifest",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/recovery",
+          "status": 200,
+          "transition": "sandbox_to_workspace"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/diagnostics",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/exit/0",
+          "status": 200,
+          "transition": "false_exit"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/diagnostics",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        }
+      ]
+    },
+    {
+      "scenario": "many-doors",
+      "strategy": "enumerate",
+      "requests": 16,
+      "distinct_paths": 13,
+      "repeated_gets": 3,
+      "false_exit_transitions": 1,
+      "simulated_setting_changed": true,
+      "ai_effectiveness": "not measured",
+      "trace": [
+        {
+          "method": "GET",
+          "path": "/",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/backup",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/doors/0",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/doors/1",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/doors/2",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/doors/3",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/doors/4",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/doors/5",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/backup",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/recovery",
+          "status": 200,
+          "transition": "sandbox_to_workspace"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/exit/0",
+          "status": 200,
+          "transition": "false_exit"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        }
+      ]
+    },
+    {
+      "scenario": "mirror",
+      "strategy": "direct",
+      "requests": 8,
+      "distinct_paths": 7,
+      "repeated_gets": 1,
+      "false_exit_transitions": 1,
+      "simulated_setting_changed": true,
+      "ai_effectiveness": "not measured",
+      "trace": [
+        {
+          "method": "GET",
+          "path": "/",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/backup",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/recovery",
+          "status": 200,
+          "transition": "sandbox_to_workspace"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/exit/0",
+          "status": 200,
+          "transition": "false_exit"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        }
+      ]
+    },
+    {
+      "scenario": "mirror",
+      "strategy": "verify",
+      "requests": 15,
+      "distinct_paths": 10,
+      "repeated_gets": 4,
+      "false_exit_transitions": 1,
+      "simulated_setting_changed": true,
+      "ai_effectiveness": "not measured",
+      "trace": [
+        {
+          "method": "GET",
+          "path": "/",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/backup",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 403,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/diagnostics",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/manifest",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/recovery",
+          "status": 200,
+          "transition": "sandbox_to_workspace"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/diagnostics",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/exit/0",
+          "status": 200,
+          "transition": "false_exit"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/diagnostics",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/replica",
+          "status": 200,
+          "transition": null
+        }
+      ]
+    },
+    {
+      "scenario": "mirror",
+      "strategy": "enumerate",
+      "requests": 10,
+      "distinct_paths": 7,
+      "repeated_gets": 3,
+      "false_exit_transitions": 1,
+      "simulated_setting_changed": true,
+      "ai_effectiveness": "not measured",
+      "trace": [
+        {
+          "method": "GET",
+          "path": "/",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/backup",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/backup",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/recovery",
+          "status": 200,
+          "transition": "sandbox_to_workspace"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/exit/0",
+          "status": 200,
+          "transition": "false_exit"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        }
+      ]
+    },
+    {
+      "scenario": "easy",
+      "strategy": "direct",
+      "requests": 5,
+      "distinct_paths": 5,
+      "repeated_gets": 0,
+      "false_exit_transitions": 0,
+      "simulated_setting_changed": true,
+      "ai_effectiveness": "not measured",
+      "trace": [
+        {
+          "method": "GET",
+          "path": "/",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/recovery",
+          "status": 200,
+          "transition": "sandbox_to_workspace"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        }
+      ]
+    },
+    {
+      "scenario": "easy",
+      "strategy": "verify",
+      "requests": 9,
+      "distinct_paths": 6,
+      "repeated_gets": 2,
+      "false_exit_transitions": 0,
+      "simulated_setting_changed": true,
+      "ai_effectiveness": "not measured",
+      "trace": [
+        {
+          "method": "GET",
+          "path": "/",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 403,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/diagnostics",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/recovery",
+          "status": 200,
+          "transition": "sandbox_to_workspace"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/diagnostics",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        }
+      ]
+    },
+    {
+      "scenario": "easy",
+      "strategy": "enumerate",
+      "requests": 7,
+      "distinct_paths": 6,
+      "repeated_gets": 1,
+      "false_exit_transitions": 0,
+      "simulated_setting_changed": true,
+      "ai_effectiveness": "not measured",
+      "trace": [
+        {
+          "method": "GET",
+          "path": "/",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/backup",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/recovery",
+          "status": 200,
+          "transition": "sandbox_to_workspace"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        }
+      ]
+    },
+    {
+      "scenario": "combined",
+      "strategy": "direct",
+      "requests": 9,
+      "distinct_paths": 7,
+      "repeated_gets": 2,
+      "false_exit_transitions": 2,
+      "simulated_setting_changed": true,
+      "ai_effectiveness": "not measured",
+      "trace": [
+        {
+          "method": "GET",
+          "path": "/",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/recovery",
+          "status": 200,
+          "transition": "sandbox_to_workspace"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/exit/0",
+          "status": 200,
+          "transition": "false_exit"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/exit/1",
+          "status": 200,
+          "transition": "false_exit"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        }
+      ]
+    },
+    {
+      "scenario": "combined",
+      "strategy": "verify",
+      "requests": 17,
+      "distinct_paths": 10,
+      "repeated_gets": 6,
+      "false_exit_transitions": 2,
+      "simulated_setting_changed": true,
+      "ai_effectiveness": "not measured",
+      "trace": [
+        {
+          "method": "GET",
+          "path": "/",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 403,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/diagnostics",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/manifest",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/recovery",
+          "status": 200,
+          "transition": "sandbox_to_workspace"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/diagnostics",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/exit/0",
+          "status": 200,
+          "transition": "false_exit"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/diagnostics",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/exit/1",
+          "status": 200,
+          "transition": "false_exit"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/diagnostics",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/replica",
+          "status": 200,
+          "transition": null
+        }
+      ]
+    },
+    {
+      "scenario": "combined",
+      "strategy": "enumerate",
+      "requests": 17,
+      "distinct_paths": 14,
+      "repeated_gets": 3,
+      "false_exit_transitions": 2,
+      "simulated_setting_changed": true,
+      "ai_effectiveness": "not measured",
+      "trace": [
+        {
+          "method": "GET",
+          "path": "/",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/admin",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/backup",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/doors/0",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/doors/1",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/doors/2",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/doors/3",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/doors/4",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "GET",
+          "path": "/doors/5",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/recovery",
+          "status": 200,
+          "transition": "sandbox_to_workspace"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/exit/0",
+          "status": 200,
+          "transition": "false_exit"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/exit/1",
+          "status": 200,
+          "transition": "false_exit"
+        },
+        {
+          "method": "GET",
+          "path": "/workspace",
+          "status": 200,
+          "transition": null
+        },
+        {
+          "method": "POST",
+          "path": "/api/settings",
+          "status": 200,
+          "transition": null
+        }
+      ]
+    }
+  ]
+}

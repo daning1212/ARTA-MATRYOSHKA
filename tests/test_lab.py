@@ -73,6 +73,22 @@ class LabTests(unittest.TestCase):
         self.assertEqual(len(self.lab.sessions), 2)
         self.assertEqual(len(self.lab.clients), 2)
 
+    def test_combined_http_flow_and_event_schema(self):
+        from arta.world import PRESETS
+        from arta.collector import valid
+        self.lab.config = PRESETS['combined']
+        _, backup, cookie = self.request('GET', '/backup')
+        self.assertEqual(self.request('POST', '/recovery', json.dumps({'recovery_code': backup['recovery_code']}), cookie)[0], 200)
+        self.assertEqual(self.request('POST', '/exit/0', '{"confirm":true}', cookie)[0], 200)
+        self.request('POST', '/api/settings', '{"maintenance":true}', cookie)
+        self.assertTrue(self.request('GET', '/replica', cookie=cookie)[1]['settings']['maintenance'])
+        events = []
+        while not self.inbox.empty():
+            events.append(self.inbox.get_nowait())
+        self.assertTrue(all(valid(event) for event in events))
+        self.assertTrue(any(event['transition'] == 'false_exit' for event in events))
+        self.assertNotIn(backup['recovery_code'], json.dumps(events))
+
     def test_invalid_and_oversized_bodies(self):
         self.assertEqual(self.request('POST', '/api/settings', '{"maintenance":"yes"}')[0], 400)
         self.assertEqual(self.request('POST', '/api/settings', 'x' * 4097)[0], 413)
@@ -80,3 +96,15 @@ class LabTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+class StorageBudgetTests(unittest.TestCase):
+    def test_sqlite_page_budget(self):
+        import sqlite3
+        with tempfile.TemporaryDirectory() as directory:
+            store = Store(Path(directory) / 'bounded.db', max_bytes=32 * 1024)
+            with self.assertRaises(sqlite3.OperationalError):
+                for _ in range(100):
+                    store.record({'value': 'x' * 4096})
+            self.assertLessEqual(store.db.execute('PRAGMA page_count').fetchone()[0] * store.db.execute('PRAGMA page_size').fetchone()[0], 32 * 1024)
+            self.assertTrue(store.verify())
+            store.db.close()

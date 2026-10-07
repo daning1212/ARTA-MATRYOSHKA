@@ -25,6 +25,13 @@ class BoundaryTests(unittest.TestCase):
         lab.record(event)
         self.assertEqual(lab.dropped, 1)
 
+    def test_runtime_budget_stops_lab(self):
+        with tempfile.TemporaryDirectory() as directory:
+            result = subprocess.run([sys.executable, '-m', 'arta', '--port', '0', '--monitor-port', '0', '--max-runtime', '1', '--data-dir', directory], capture_output=True, text=True, timeout=10)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn('runtime budget reached', result.stdout)
+            self.assertFalse((Path(directory) / 'runtime.json').exists())
+
     def test_process_separation_authentication_and_persistence(self):
         with tempfile.TemporaryDirectory() as directory:
             process = subprocess.Popen([sys.executable, '-m', 'arta', '--port', '0', '--monitor-port', '0', '--data-dir', directory], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
