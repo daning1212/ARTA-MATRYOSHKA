@@ -5,14 +5,17 @@ import threading
 import unittest
 from http.server import HTTPServer
 from pathlib import Path
-from arta.__main__ import Lab, Store, handler
+import queue
+from arta.audit import Store
+from arta.web import Lab, handler
 
 
 class LabTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         self.store = Store(Path(self.tmp.name) / 'events.db', limit=20)
-        self.lab = Lab(self.store)
+        self.inbox = queue.Queue(maxsize=256)
+        self.lab = Lab(self.inbox)
         self.server = HTTPServer(('127.0.0.1', 0), handler(self.lab))
         self.thread = threading.Thread(target=self.server.serve_forever)
         self.thread.start()
@@ -41,7 +44,7 @@ class LabTests(unittest.TestCase):
         self.assertTrue(self.request('GET', '/api/settings', cookie=cookie)[1]['settings']['maintenance'])
         self.assertFalse(self.request('GET', '/api/settings')[1]['settings']['maintenance'])
 
-    def test_rate_limit_and_untrusted_forwarded_header(self):
+    def test_rate_limit(self):
         self.lab.rate = 2
         self.request('GET', '/')
         self.request('GET', '/')
@@ -49,6 +52,8 @@ class LabTests(unittest.TestCase):
 
     def test_secrets_not_recorded_and_tamper_detected(self):
         self.request('POST', '/login?password=secret-query', 'password=secret-body')
+        while not self.inbox.empty():
+            self.store.record(self.inbox.get_nowait())
         events = json.dumps(self.store.recent())
         self.assertNotIn('secret', events)
         self.assertTrue(self.store.verify())
