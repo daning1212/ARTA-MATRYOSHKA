@@ -51,8 +51,8 @@ It does not guarantee complete protection and must not be connected to real sens
 Python 3.10 or newer. No third-party packages required.
 
 ```bash
-git clone https://github.com/daning1212/ARTA-MATRYOSHKA-.git
-cd ARTA-MATRYOSHKA-
+git clone https://github.com/daning1212/ARTA-MATRYOSHKA.git
+cd ARTA-MATRYOSHKA
 python -m arta
 ```
 
