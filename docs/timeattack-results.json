@@ -1,0 +1,1285 @@
+{
+  "kind": "synthetic-scripted-300-second-cap",
+  "limitations": [
+    "No AI agent; strategies are fixed scripts.",
+    "In-process calls; no HTTP, network or OS containment tested.",
+    "Protected endpoint is always denied in all conditions; zero extraction is by construction, not evidence of ARTA effectiveness.",
+    "Baseline is the existing simple decoy, not an environment without deception.",
+    "20 synthetic records are not 20 attack methods.",
+    "Tasks finish before deadline; no measured five-minute persistence or statistical delay effect.",
+    "No server CPU, memory, inference or tool billing measured."
+  ],
+  "runs": [
+    {
+      "scenario": "baseline",
+      "strategy": "direct",
+      "deadline_seconds": 300,
+      "elapsed_seconds": 4.814200019609416e-05,
+      "outcome": "task_completed",
+      "requests": 7,
+      "unique_decoy_records": 20,
+      "unique_protected_records": 0,
+      "trace": [
+        {
+          "elapsed_seconds": 2.306500027771108e-05,
+          "path": "/",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.7942000087932684e-05,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.138700003546546e-05,
+          "path": "/backup",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.968999999415246e-05,
+          "path": "/recovery",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 4.2734000089694746e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 4.388600018501165e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 4.764200002682628e-05,
+          "path": "/protected-records",
+          "status": 403
+        }
+      ]
+    },
+    {
+      "scenario": "baseline",
+      "strategy": "verify",
+      "deadline_seconds": 300,
+      "elapsed_seconds": 2.914400010922691e-05,
+      "outcome": "task_completed",
+      "requests": 9,
+      "unique_decoy_records": 20,
+      "unique_protected_records": 0,
+      "trace": [
+        {
+          "elapsed_seconds": 1.167800019175047e-05,
+          "path": "/",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.3481000223691808e-05,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.5474000065296423e-05,
+          "path": "/backup",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.885900019260589e-05,
+          "path": "/recovery",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.1081999875605106e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.312500009793439e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.6640000214683823e-05,
+          "path": "/diagnostics",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.7350999971531564e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.8714000109175686e-05,
+          "path": "/protected-records",
+          "status": 403
+        }
+      ]
+    },
+    {
+      "scenario": "baseline",
+      "strategy": "enumerate",
+      "deadline_seconds": 300,
+      "elapsed_seconds": 2.3625000267202267e-05,
+      "outcome": "task_completed",
+      "requests": 9,
+      "unique_decoy_records": 20,
+      "unique_protected_records": 0,
+      "trace": [
+        {
+          "elapsed_seconds": 9.774000318429898e-06,
+          "path": "/",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.1557000107131898e-05,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.3139000202500029e-05,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.470200004405342e-05,
+          "path": "/backup",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.6244000107690226e-05,
+          "path": "/backup",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.8918000023404602e-05,
+          "path": "/recovery",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.0681000023614615e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.1282000034261728e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.3335000150837004e-05,
+          "path": "/protected-records",
+          "status": 403
+        }
+      ]
+    },
+    {
+      "scenario": "linked",
+      "strategy": "direct",
+      "deadline_seconds": 300,
+      "elapsed_seconds": 3.2468999961565714e-05,
+      "outcome": "task_completed",
+      "requests": 10,
+      "unique_decoy_records": 20,
+      "unique_protected_records": 0,
+      "trace": [
+        {
+          "elapsed_seconds": 8.843000159686198e-06,
+          "path": "/",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.1046000054193428e-05,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.3129999842931284e-05,
+          "path": "/backup",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.563300020279712e-05,
+          "path": "/recovery",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.7706000107864384e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.8366999938734807e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.759100016191951e-05,
+          "path": "/exit/0",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.0014999992999947e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.075599988733302e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.213799982404453e-05,
+          "path": "/protected-records",
+          "status": 403
+        }
+      ]
+    },
+    {
+      "scenario": "linked",
+      "strategy": "verify",
+      "deadline_seconds": 300,
+      "elapsed_seconds": 3.7755999983346555e-05,
+      "outcome": "task_completed",
+      "requests": 14,
+      "unique_decoy_records": 20,
+      "unique_protected_records": 0,
+      "trace": [
+        {
+          "elapsed_seconds": 8.90299997990951e-06,
+          "path": "/",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.1076000191678759e-05,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.3029000001552049e-05,
+          "path": "/backup",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.577300008648308e-05,
+          "path": "/recovery",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.8157000340579543e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.8888000340666622e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.38860002355068e-05,
+          "path": "/diagnostics",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.4517000383639243e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.0405000416067196e-05,
+          "path": "/exit/0",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.2669000120222336e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.328000002511544e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.5773000035987934e-05,
+          "path": "/diagnostics",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.6374000046635047e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.748600011022063e-05,
+          "path": "/protected-records",
+          "status": 403
+        }
+      ]
+    },
+    {
+      "scenario": "linked",
+      "strategy": "enumerate",
+      "deadline_seconds": 300,
+      "elapsed_seconds": 3.0325000352604548e-05,
+      "outcome": "task_completed",
+      "requests": 12,
+      "unique_decoy_records": 20,
+      "unique_protected_records": 0,
+      "trace": [
+        {
+          "elapsed_seconds": 8.79300023370888e-06,
+          "path": "/",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.0486000064702239e-05,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.2358000276435632e-05,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.4111000382399652e-05,
+          "path": "/backup",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.600400037204963e-05,
+          "path": "/backup",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.8508000266592717e-05,
+          "path": "/recovery",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.0701000266853953e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.126200024576974e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.637900024637929e-05,
+          "path": "/exit/0",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.8392000331223244e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.8982999992877012e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.010500040545594e-05,
+          "path": "/protected-records",
+          "status": 403
+        }
+      ]
+    },
+    {
+      "scenario": "many-doors",
+      "strategy": "direct",
+      "deadline_seconds": 300,
+      "elapsed_seconds": 3.270900015195366e-05,
+      "outcome": "task_completed",
+      "requests": 10,
+      "unique_decoy_records": 20,
+      "unique_protected_records": 0,
+      "trace": [
+        {
+          "elapsed_seconds": 1.0476000170456246e-05,
+          "path": "/",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.2959000287082745e-05,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.5442999938386492e-05,
+          "path": "/backup",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.8276999981026165e-05,
+          "path": "/recovery",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.0841000150539912e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.1362000097724376e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.6069000341522042e-05,
+          "path": "/exit/0",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.0796000373811694e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.128700018351083e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.2529000236536376e-05,
+          "path": "/protected-records",
+          "status": 403
+        }
+      ]
+    },
+    {
+      "scenario": "many-doors",
+      "strategy": "verify",
+      "deadline_seconds": 300,
+      "elapsed_seconds": 3.553299984559999e-05,
+      "outcome": "task_completed",
+      "requests": 14,
+      "unique_decoy_records": 20,
+      "unique_protected_records": 0,
+      "trace": [
+        {
+          "elapsed_seconds": 8.992999937618151e-06,
+          "path": "/",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.1126999652333325e-05,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.3339999895833898e-05,
+          "path": "/backup",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.6023999705794267e-05,
+          "path": "/recovery",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.86079996638e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.905899989651516e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.2573999558517244e-05,
+          "path": "/diagnostics",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.3054999928717734e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.739100000326289e-05,
+          "path": "/exit/0",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.0184999559423886e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.0715999855601694e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.378099972906057e-05,
+          "path": "/diagnostics",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.426199964451371e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.531299989845138e-05,
+          "path": "/protected-records",
+          "status": 403
+        }
+      ]
+    },
+    {
+      "scenario": "many-doors",
+      "strategy": "enumerate",
+      "deadline_seconds": 300,
+      "elapsed_seconds": 7.773700008328888e-05,
+      "outcome": "task_completed",
+      "requests": 18,
+      "unique_decoy_records": 20,
+      "unique_protected_records": 0,
+      "trace": [
+        {
+          "elapsed_seconds": 9.394000244355993e-06,
+          "path": "/",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.1537000318639912e-05,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.3821000266034389e-05,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.6074000086518936e-05,
+          "path": "/backup",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.9829999928333564e-05,
+          "path": "/doors/0",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 4.665000005843467e-05,
+          "path": "/doors/1",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 5.038600011175731e-05,
+          "path": "/doors/2",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 5.30400002389797e-05,
+          "path": "/doors/3",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 5.5544000133522786e-05,
+          "path": "/doors/4",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 5.815800022901385e-05,
+          "path": "/doors/5",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 6.042099994374439e-05,
+          "path": "/backup",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 6.333600003927131e-05,
+          "path": "/recovery",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 6.587899997612112e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 6.650000023000757e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 7.309000011446187e-05,
+          "path": "/exit/0",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 7.574400024168426e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 7.627500008311472e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 7.751700013614027e-05,
+          "path": "/protected-records",
+          "status": 403
+        }
+      ]
+    },
+    {
+      "scenario": "mirror",
+      "strategy": "direct",
+      "deadline_seconds": 300,
+      "elapsed_seconds": 2.5409000045328867e-05,
+      "outcome": "task_completed",
+      "requests": 10,
+      "unique_decoy_records": 20,
+      "unique_protected_records": 0,
+      "trace": [
+        {
+          "elapsed_seconds": 9.123999916482717e-06,
+          "path": "/",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.0947000191663392e-05,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.2869999864051351e-05,
+          "path": "/backup",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.4993000149843283e-05,
+          "path": "/recovery",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.7176000255858526e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.7707000097288983e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.151299986508093e-05,
+          "path": "/exit/0",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.349599981243955e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.405700024610269e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.5178000214509666e-05,
+          "path": "/protected-records",
+          "status": 403
+        }
+      ]
+    },
+    {
+      "scenario": "mirror",
+      "strategy": "verify",
+      "deadline_seconds": 300,
+      "elapsed_seconds": 8.343600029547815e-05,
+      "outcome": "task_completed",
+      "requests": 14,
+      "unique_decoy_records": 20,
+      "unique_protected_records": 0,
+      "trace": [
+        {
+          "elapsed_seconds": 8.643000001029577e-06,
+          "path": "/",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.1778000043705106e-05,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.3501000012183795e-05,
+          "path": "/backup",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.5644000086467713e-05,
+          "path": "/recovery",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.7737000234774314e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.8228000044473447e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.095199988616514e-05,
+          "path": "/diagnostics",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.148300018234295e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.4868000309652416e-05,
+          "path": "/exit/0",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 7.67760002418072e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 7.746700021016295e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 8.041099999900325e-05,
+          "path": "/diagnostics",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 8.08820000202104e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 8.195400005206466e-05,
+          "path": "/protected-records",
+          "status": 403
+        }
+      ]
+    },
+    {
+      "scenario": "mirror",
+      "strategy": "enumerate",
+      "deadline_seconds": 300,
+      "elapsed_seconds": 2.864299995053443e-05,
+      "outcome": "task_completed",
+      "requests": 12,
+      "unique_decoy_records": 20,
+      "unique_protected_records": 0,
+      "trace": [
+        {
+          "elapsed_seconds": 8.562999937566929e-06,
+          "path": "/",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.0385999758000253e-05,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.2098999832232948e-05,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.3840999599779025e-05,
+          "path": "/backup",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.555399967401172e-05,
+          "path": "/backup",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.7966999621421564e-05,
+          "path": "/recovery",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.0110999685130082e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.0600999960151967e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.4917999780882383e-05,
+          "path": "/exit/0",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.686099969650968e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.7361999855202157e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.8423000003385823e-05,
+          "path": "/protected-records",
+          "status": 403
+        }
+      ]
+    },
+    {
+      "scenario": "easy",
+      "strategy": "direct",
+      "deadline_seconds": 300,
+      "elapsed_seconds": 1.526300002296921e-05,
+      "outcome": "task_completed",
+      "requests": 6,
+      "unique_decoy_records": 20,
+      "unique_protected_records": 0,
+      "trace": [
+        {
+          "elapsed_seconds": 7.5220000326226e-06,
+          "path": "/",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 9.033999958774075e-06,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.1007000011886703e-05,
+          "path": "/recovery",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.2578999758261489e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.3159999980416615e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.5032999726827256e-05,
+          "path": "/protected-records",
+          "status": 403
+        }
+      ]
+    },
+    {
+      "scenario": "easy",
+      "strategy": "verify",
+      "deadline_seconds": 300,
+      "elapsed_seconds": 1.800699965315289e-05,
+      "outcome": "task_completed",
+      "requests": 8,
+      "unique_decoy_records": 20,
+      "unique_protected_records": 0,
+      "trace": [
+        {
+          "elapsed_seconds": 7.221000032586744e-06,
+          "path": "/",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 8.683000032760901e-06,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.0706000011850847e-05,
+          "path": "/recovery",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.2119000075472286e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.2588999652507482e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.5003000044089276e-05,
+          "path": "/diagnostics",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.552399999127374e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.6614999822195387e-05,
+          "path": "/protected-records",
+          "status": 403
+        }
+      ]
+    },
+    {
+      "scenario": "easy",
+      "strategy": "enumerate",
+      "deadline_seconds": 300,
+      "elapsed_seconds": 1.7315999684797134e-05,
+      "outcome": "task_completed",
+      "requests": 8,
+      "unique_decoy_records": 20,
+      "unique_protected_records": 0,
+      "trace": [
+        {
+          "elapsed_seconds": 7.029999778751517e-06,
+          "path": "/",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 8.321999757754384e-06,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 9.643999874242581e-06,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.0975999884976773e-05,
+          "path": "/backup",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.2698999853455462e-05,
+          "path": "/recovery",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.4150999959383626e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.4641999769082759e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.710499964246992e-05,
+          "path": "/protected-records",
+          "status": 403
+        }
+      ]
+    },
+    {
+      "scenario": "combined",
+      "strategy": "direct",
+      "deadline_seconds": 300,
+      "elapsed_seconds": 3.65249998139916e-05,
+      "outcome": "task_completed",
+      "requests": 12,
+      "unique_decoy_records": 20,
+      "unique_protected_records": 0,
+      "trace": [
+        {
+          "elapsed_seconds": 9.663999662734568e-06,
+          "path": "/",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.249899969479884e-05,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.5642999642295763e-05,
+          "path": "/recovery",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.834799968492007e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.8907999674411258e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.389599967500544e-05,
+          "path": "/exit/0",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.6759999855130445e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.7290999696560903e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.197799969711923e-05,
+          "path": "/exit/1",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.4701999993558275e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.5242999729234725e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.6314999761088984e-05,
+          "path": "/protected-records",
+          "status": 403
+        }
+      ]
+    },
+    {
+      "scenario": "combined",
+      "strategy": "verify",
+      "deadline_seconds": 300,
+      "elapsed_seconds": 4.509800010055187e-05,
+      "outcome": "task_completed",
+      "requests": 18,
+      "unique_decoy_records": 20,
+      "unique_protected_records": 0,
+      "trace": [
+        {
+          "elapsed_seconds": 9.0739999905054e-06,
+          "path": "/",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.133800014940789e-05,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.4182000086293556e-05,
+          "path": "/recovery",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.6836000213515945e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.7295999896305148e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.089200006594183e-05,
+          "path": "/diagnostics",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.1473000288096955e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.56690000242088e-05,
+          "path": "/exit/0",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.8423000003385823e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.8974000088055618e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.191900032106787e-05,
+          "path": "/diagnostics",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.2439000278827734e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.633500000432832e-05,
+          "path": "/exit/1",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.9990999994188314e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 4.049100016345619e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 4.334599998401245e-05,
+          "path": "/diagnostics",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 4.3746000301325694e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 4.4857999910163926e-05,
+          "path": "/protected-records",
+          "status": 403
+        }
+      ]
+    },
+    {
+      "scenario": "combined",
+      "strategy": "enumerate",
+      "deadline_seconds": 300,
+      "elapsed_seconds": 5.6073999985528644e-05,
+      "outcome": "task_completed",
+      "requests": 20,
+      "unique_decoy_records": 20,
+      "unique_protected_records": 0,
+      "trace": [
+        {
+          "elapsed_seconds": 9.804000001167879e-06,
+          "path": "/",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.2058000265824376e-05,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.4450999969994882e-05,
+          "path": "/admin",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 1.6885000150068663e-05,
+          "path": "/backup",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.003999998123618e-05,
+          "path": "/doors/0",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.3024000256555155e-05,
+          "path": "/doors/1",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.589900032035075e-05,
+          "path": "/doors/2",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 2.852300031008781e-05,
+          "path": "/doors/3",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.1137000405578874e-05,
+          "path": "/doors/4",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.393099996173987e-05,
+          "path": "/doors/5",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.695500026879017e-05,
+          "path": "/recovery",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 3.9679000110481866e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 4.0160000025935005e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 4.4766999963030685e-05,
+          "path": "/exit/0",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 4.74610001219844e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 4.791200035469956e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 5.185800000617746e-05,
+          "path": "/exit/1",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 5.4352000006474555e-05,
+          "path": "/workspace",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 5.487199996423442e-05,
+          "path": "/records",
+          "status": 200
+        },
+        {
+          "elapsed_seconds": 5.5854000038380036e-05,
+          "path": "/protected-records",
+          "status": 403
+        }
+      ]
+    }
+  ]
+}
