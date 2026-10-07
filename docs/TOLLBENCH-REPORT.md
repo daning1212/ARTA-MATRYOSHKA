@@ -1,5 +1,7 @@
 # ARTA-MATRYOSHKA — 계산 통행료 예비 실험 보고서
 
+> **과거 기록 — 2초 반복 조회 예비 실험.** 최신 고유 자료 수집·대조 실험은 [COLLECTIONBENCH](COLLECTIONBENCH-REPORT.md)·[CONTROLBENCH](CONTROLBENCH-REPORT.md) 보고서를 참조하세요. 아래 표는 같은 합성 자료의 반복 조회량이며, 실제 자료 보호나 AI 방어 효과를 입증하지 않습니다.
+
 공동개발: Healing Arty & Arta.
 
 2026-10-07. 별도 localhost HTTP 마이크로벤치마크이며 기존 미끼 세계에는 통합하지 않았다.
