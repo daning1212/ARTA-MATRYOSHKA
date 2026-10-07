@@ -54,8 +54,8 @@ ARTA는 **“이렇게 해보았더니, 이 조건에서 이런 결과가 나왔
 Python 3.10 이상. 추가 패키지 불필요.
 
 ```bash
-git clone https://github.com/daning1212/ARTA-MATRYOSHKA-.git
-cd ARTA-MATRYOSHKA-
+git clone https://github.com/daning1212/ARTA-MATRYOSHKA.git
+cd ARTA-MATRYOSHKA
 python -m arta
 ```
 
